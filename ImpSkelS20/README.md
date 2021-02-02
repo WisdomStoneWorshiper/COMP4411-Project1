@@ -1,0 +1,1 @@
+do (brew install fltk) first
