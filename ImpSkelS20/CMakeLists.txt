@@ -31,4 +31,5 @@ target_sources(proj1 PRIVATE
     PaintView.cpp
     PointBrush.cpp
     LineBrush.cpp
-    ScatteredPointBrush.cpp)
+    ScatteredPointBrush.cpp
+    CircleBrush.cpp)
