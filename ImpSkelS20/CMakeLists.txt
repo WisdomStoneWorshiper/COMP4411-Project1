@@ -9,16 +9,17 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_C_EXTENSIONS ON)
 
 find_package(OpenGL REQUIRED)
-find_package(fltk REQUIRED)
+find_package(FLTK REQUIRED)
 
 add_executable(proj1)
 
 target_include_directories(proj1 PUBLIC ./)
-target_include_directories(proj1 PUBLIC ./fltk-1.3.3/)
+#target_include_directories(proj1 PUBLIC ./fltk-1.3.3/)
 
 target_link_libraries(proj1 PRIVATE ${OPENGL_LIBRARIES})
+
+include_directories(${FLTK_INCLUDE_DIR})
 target_link_libraries(proj1 PRIVATE ${FLTK_LIBRARIES})
-target_link_libraries(proj1 PRIVATE pthread m stdc++)
 
 target_sources(proj1 PRIVATE 
     Bitmap.cpp

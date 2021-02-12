@@ -4,7 +4,7 @@
 // The code maintaining the painting view of the input images
 //
 
-#include "Paintview.h"
+#include "PaintView.h"
 
 #include "ImpBrush.h"
 #include "Impressionist.h"
