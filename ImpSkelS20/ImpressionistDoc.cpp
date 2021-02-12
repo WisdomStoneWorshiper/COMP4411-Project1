@@ -13,6 +13,7 @@
 #include "ImpressionistUI.h"
 
 // Include individual brush headers here.
+#include "LineBrush.h"
 #include "PointBrush.h"
 
 #define DESTROY(p)         \
@@ -38,7 +39,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	ImpBrush::c_pBrushes[BRUSH_POINTS] = new PointBrush(this, "Points");
 
 	// Note: You should implement these 5 brushes.  They are set the same (PointBrush) for now
-	ImpBrush::c_pBrushes[BRUSH_LINES] = new PointBrush(this, "Lines");
+	ImpBrush::c_pBrushes[BRUSH_LINES] = new LineBrush(this, "Lines");
 	ImpBrush::c_pBrushes[BRUSH_CIRCLES] = new PointBrush(this, "Circles");
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_POINTS] = new PointBrush(this, "Scattered Points");
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_LINES] = new PointBrush(this, "Scattered Lines");

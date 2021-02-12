@@ -29,4 +29,5 @@ target_sources(proj1 PRIVATE
     ImpressionistUI.cpp
     OriginalView.cpp
     PaintView.cpp
-    PointBrush.cpp)
+    PointBrush.cpp
+    LineBrush.cpp)
