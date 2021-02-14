@@ -20,8 +20,6 @@ void CircleBrush::BrushBegin(const Point source, const Point target) {
 
 	radius = pDoc->getSize();
 
-	// glPointSize(1.0f);
-
 	BrushMove(source, target);
 }
 
