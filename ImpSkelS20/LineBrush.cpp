@@ -20,6 +20,7 @@ void LineBrush::BrushBegin(const Point source, const Point target) {
 
 	line_size = pDoc->getSize();
 	glLineWidth(dlg->getLineWidth());
+	glRotatef(dlg->getLineAngle(), 0, 0, 1.0); //Note: add this line of code in scattered line brush as well
 
 	BrushMove(source, target);
 }
