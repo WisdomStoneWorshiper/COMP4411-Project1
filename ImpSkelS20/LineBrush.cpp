@@ -19,7 +19,7 @@ void LineBrush::BrushBegin(const Point source, const Point target) {
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
 	line_size = pDoc->getSize();
-	glLineWidth(10.0f);
+	glLineWidth(dlg->getLineWidth());
 
 	BrushMove(source, target);
 }

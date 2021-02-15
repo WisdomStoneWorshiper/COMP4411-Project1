@@ -258,6 +258,10 @@ void ImpressionistUI::cb_sizeSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nSize = int(((Fl_Slider*)o)->value());
 }
 
+void ImpressionistUI::cb_LineWidthSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nLineWidth=int( ((Fl_Slider *)o)->value() ) ;
+}
+
 //---------------------------------- per instance functions --------------------------------------
 
 //------------------------------------------------
@@ -306,6 +310,16 @@ void ImpressionistUI::setSize(int size) {
 	m_nSize = size;
 
 	if (size <= 40) m_BrushSizeSlider->value(m_nSize);
+}
+
+int ImpressionistUI::getLineWidth() {
+	return m_nLineWidth;
+}
+
+void ImpressionistUI::setLineWidth(int lineWidth) {
+	m_nLineWidth = lineWidth;
+
+	if (lineWidth <= 40) m_LineWidthSlider->value(m_nLineWidth);
 }
 
 // Main menu definition
@@ -392,6 +406,18 @@ ImpressionistUI::ImpressionistUI() {
 	m_BrushSizeSlider->value(m_nSize);
 	m_BrushSizeSlider->align(FL_ALIGN_RIGHT);
 	m_BrushSizeSlider->callback(cb_sizeSlides);
+
+	m_LineWidthSlider = new Fl_Value_Slider(10, 80, 300, 20, "Line Width");
+	m_LineWidthSlider->user_data((void*)(this));	// record self to be used by static callback functions
+	m_LineWidthSlider->type(FL_HOR_NICE_SLIDER);
+	m_LineWidthSlider->labelfont(FL_COURIER);
+	m_LineWidthSlider->labelsize(12);
+	m_LineWidthSlider->minimum(1);
+	m_LineWidthSlider->maximum(40);
+	m_LineWidthSlider->step(1);
+	m_LineWidthSlider->value(m_nLineWidth);
+	m_LineWidthSlider->align(FL_ALIGN_RIGHT);
+	m_LineWidthSlider->callback(cb_LineWidthSlides);
 
 	m_brushDialog->end();
 }
