@@ -61,6 +61,7 @@ public:
 	float getAlpha();
 	void setAlpha(float alpha);
 
+
 private:
 	ImpressionistDoc* m_pDoc; // pointer to document to communicate with the document
 

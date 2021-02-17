@@ -7,13 +7,14 @@
 
 #include "ImpressionistDoc.h"
 
-#include <FL/fl_ask.H>
-
 #include "ImpBrush.h"
 #include "ImpressionistUI.h"
 
+#include <FL/fl_ask.H>
+
 // Include individual brush headers here.
 #include "CircleBrush.h"
+#include "DirectionLine.h"
 #include "LineBrush.h"
 #include "PointBrush.h"
 #include "ScatteredCircleBrush.h"
@@ -34,6 +35,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	m_nWidth = -1;
 	m_ucBitmap = NULL;
 	m_ucPainting = NULL;
+	m_pStroke = 0;
 
 	// create one instance of each brush
 	ImpBrush::c_nBrushCount = NUM_BRUSH_TYPE;
@@ -50,6 +52,7 @@ ImpressionistDoc::ImpressionistDoc() {
 
 	// make one of the brushes current
 	m_pCurrentBrush = ImpBrush::c_pBrushes[0];
+	m_pDirectionLine = new DirectionLine(this, "Direction Line");
 }
 
 //---------------------------------------------------------
@@ -68,6 +71,9 @@ char* ImpressionistDoc::getImageName() { return m_imageName; }
 //---------------------------------------------------------
 void ImpressionistDoc::setBrushType(int type) { m_pCurrentBrush = ImpBrush::c_pBrushes[type]; }
 
+void ImpressionistDoc::setStrokeType(int type) { m_pStroke = type; }
+
+int ImpressionistDoc::getStrokeType() { return m_pStroke; }
 //---------------------------------------------------------
 // Returns the size of the brush.
 //---------------------------------------------------------
@@ -97,8 +103,10 @@ int ImpressionistDoc::loadImage(char* iname) {
 	m_nPaintHeight = height;
 
 	// release old storage
-	if (m_ucBitmap) delete[] m_ucBitmap;
-	if (m_ucPainting) delete[] m_ucPainting;
+	if (m_ucBitmap)
+		delete[] m_ucBitmap;
+	if (m_ucPainting)
+		delete[] m_ucPainting;
 
 	m_ucBitmap = data;
 

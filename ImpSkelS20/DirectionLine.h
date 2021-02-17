@@ -1,27 +1,22 @@
 //
-// LineBrush.h
+// DirectionLine.h
 //
 // The header file for Line Brush.
 //
-
-#ifndef LINEBRUSH_H
-#define LINEBRUSH_H
+#pragma once
 
 #include "ImpBrush.h"
 
-class LineBrush : public ImpBrush {
+class DirectionLine : public ImpBrush {
 public:
-	LineBrush(ImpressionistDoc* pDoc = NULL, char* name = NULL);
+	DirectionLine(ImpressionistDoc* pDoc = NULL, char* name = NULL);
 
 	void BrushBegin(const Point source, const Point target);
 	void BrushMove(const Point source, const Point target);
 	void BrushEnd(const Point source, const Point target);
-	void StrokeHandler(const Point source, const Point target);
 	char* BrushName(void);
 
 private:
-	double line_size;
-	Point last_point;
+	Point start_pt;
+	Point end_pt;
 };
-
-#endif
