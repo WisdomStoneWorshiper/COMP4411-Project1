@@ -237,12 +237,18 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v) {
 	int type = (int)(size_t)v;
 
 	pDoc->setBrushType(type);
+	if (pUI->m_StrokeDirectionChoice != nullptr) {
+		if (type == BRUSH_LINES || type == BRUSH_SCATTERED_LINES) {
+			pUI->m_StrokeDirectionChoice->activate();
+			pUI->m_LineWidthSlider->activate();
+			pUI->m_LineAngleSlider->activate();
 
-	// if (type == BRUSH_LINES || type == BRUSH_SCATTERED_LINES) {
-	// 	m_StrokeDirectionChoice->activate();
-	// } else {
-	// 	m_StrokeDirectionChoice->deactivate();
-	// }
+		} else {
+			pUI->m_StrokeDirectionChoice->deactivate();
+			pUI->m_LineWidthSlider->deactivate();
+			pUI->m_LineAngleSlider->deactivate();
+		}
+	}
 }
 
 void ImpressionistUI::cb_strokeChoice(Fl_Widget* o, void* v) {
@@ -357,7 +363,8 @@ float ImpressionistUI::getAlpha() { return m_nAlpha; }
 void ImpressionistUI::setAlpha(float alpha) {
 	m_nAlpha = alpha;
 
-	if (alpha <= 1.0) m_AlphaSlider->value(m_nAlpha);
+	if (alpha <= 1.0)
+		m_AlphaSlider->value(m_nAlpha);
 }
 
 // Main menu definition
@@ -427,7 +434,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_nSize = 10;
 	m_nLineWidth = 2;
 	m_nLineAngle = 0;
-	m_nAlpha = 0.0;
+	m_nAlpha = 1.0;
 	// brush dialog definition
 	m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
 	// Add a brush type choice to the dialog
@@ -444,6 +451,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_StrokeDirectionChoice->user_data((void*)(this)); // record self to be used by static callback functions
 	m_StrokeDirectionChoice->menu(strokeDirectionMenu);
 	m_StrokeDirectionChoice->callback(cb_strokeChoice);
+	m_StrokeDirectionChoice->deactivate();
 
 	// Add brush size slider to the dialog
 	m_BrushSizeSlider = new Fl_Value_Slider(10, 80, 300, 20, "Size");
@@ -469,6 +477,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_LineWidthSlider->value(m_nLineWidth);
 	m_LineWidthSlider->align(FL_ALIGN_RIGHT);
 	m_LineWidthSlider->callback(cb_LineWidthSlides);
+	m_LineWidthSlider->deactivate();
 
 	m_LineAngleSlider = new Fl_Value_Slider(10, 120, 300, 20, "Line Angle");
 	m_LineAngleSlider->user_data((void*)(this)); // record self to be used by static callback functions
@@ -481,9 +490,10 @@ ImpressionistUI::ImpressionistUI() {
 	m_LineAngleSlider->value(m_nLineAngle);
 	m_LineAngleSlider->align(FL_ALIGN_RIGHT);
 	m_LineAngleSlider->callback(cb_LineAngleSlides);
+	m_LineAngleSlider->deactivate();
 
 	m_AlphaSlider = new Fl_Value_Slider(10, 140, 300, 20, "Alpha");
-	m_AlphaSlider->user_data((void*)(this));  // record self to be used by static callback functions
+	m_AlphaSlider->user_data((void*)(this)); // record self to be used by static callback functions
 	m_AlphaSlider->type(FL_HOR_NICE_SLIDER);
 	m_AlphaSlider->labelfont(FL_COURIER);
 	m_AlphaSlider->labelsize(12);
