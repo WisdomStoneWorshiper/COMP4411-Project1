@@ -26,6 +26,7 @@ class ImpressionistDoc {
 	int getSize();				  // get the UI size
 	void setSize(int size);		  // set the UI size
 	char* getImageName();		  // get the current image name
+	float getAlpha();
 
 	// Attributes
    public:

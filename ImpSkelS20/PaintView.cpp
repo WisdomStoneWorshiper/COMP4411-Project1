@@ -84,6 +84,9 @@ void PaintView::draw() {
 		Point source(coord.x + m_nStartCol, m_nEndRow - coord.y);
 		Point target(coord.x, m_nWindowHeight - coord.y);
 
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		// This is the event handler
 		switch (eventToDo) {
 			case LEFT_MOUSE_DOWN:

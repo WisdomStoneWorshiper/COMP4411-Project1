@@ -280,6 +280,11 @@ void ImpressionistUI::cb_LineWidthSlides(Fl_Widget* o, void* v) {
 void ImpressionistUI::cb_LineAngleSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nLineAngle = int(((Fl_Slider*)o)->value());
 }
+
+void ImpressionistUI::cb_AlphaSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nAlpha = float(((Fl_Slider*)o)->value());
+}
+
 //---------------------------------- per instance functions --------------------------------------
 
 //------------------------------------------------
@@ -344,6 +349,14 @@ void ImpressionistUI::setLineAngle(int lineAngle) {
 	m_nLineAngle = lineAngle;
 
 	if (lineAngle <= 359) m_LineAngleSlider->value(m_nLineAngle);
+}
+
+float ImpressionistUI::getAlpha() { return m_nAlpha; }
+
+void ImpressionistUI::setAlpha(float alpha) {
+	m_nAlpha = alpha;
+
+	if (alpha <= 1.0) m_AlphaSlider->value(m_nAlpha);
 }
 
 // Main menu definition
@@ -413,6 +426,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_nSize = 10;
 	m_nLineWidth = 5;
 	m_nLineAngle = 0;
+	m_nAlpha = 1.0;
 	// brush dialog definition
 	m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
 	// Add a brush type choice to the dialog
@@ -466,6 +480,18 @@ ImpressionistUI::ImpressionistUI() {
 	m_LineAngleSlider->value(m_nLineAngle);
 	m_LineAngleSlider->align(FL_ALIGN_RIGHT);
 	m_LineAngleSlider->callback(cb_LineAngleSlides);
+
+	m_AlphaSlider = new Fl_Value_Slider(10, 120, 300, 20, "Alpha");
+	m_AlphaSlider->user_data((void*)(this));  // record self to be used by static callback functions
+	m_AlphaSlider->type(FL_HOR_NICE_SLIDER);
+	m_AlphaSlider->labelfont(FL_COURIER);
+	m_AlphaSlider->labelsize(12);
+	m_AlphaSlider->minimum(0);
+	m_AlphaSlider->maximum(1);
+	m_AlphaSlider->step(0.01);
+	m_AlphaSlider->value(m_nAlpha);
+	m_AlphaSlider->align(FL_ALIGN_RIGHT);
+	m_AlphaSlider->callback(cb_AlphaSlides);
 
 	m_brushDialog->end();
 }
