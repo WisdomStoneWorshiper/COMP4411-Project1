@@ -18,6 +18,7 @@
 #include "LineBrush.h"
 #include "PointBrush.h"
 #include "ScatteredCircleBrush.h"
+#include "ScatteredLineBrush.h"
 #include "ScatteredPointBrush.h"
 
 #define DESTROY(p)         \
@@ -47,7 +48,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	ImpBrush::c_pBrushes[BRUSH_LINES] = new LineBrush(this, "Lines");
 	ImpBrush::c_pBrushes[BRUSH_CIRCLES] = new CircleBrush(this, "Circles");
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_POINTS] = new ScatteredPointBrush(this, "Scattered Points");
-	ImpBrush::c_pBrushes[BRUSH_SCATTERED_LINES] = new PointBrush(this, "Scattered Lines");
+	ImpBrush::c_pBrushes[BRUSH_SCATTERED_LINES] = new ScatteredLineBrush(this, "Scattered Lines");
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_CIRCLES] = new ScatteredCircleBrush(this, "Scattered Circles");
 
 	// make one of the brushes current

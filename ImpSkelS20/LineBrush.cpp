@@ -16,7 +16,6 @@ const int sx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
 const int sy[3][3] = {{1, 2, 1}, {0, 0, 0}, {-1, -2, -1}};
 
 LineBrush::LineBrush(ImpressionistDoc* pDoc, char* name) : ImpBrush(pDoc, name) {}
-#include "iostream"
 
 void LineBrush::BrushBegin(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
@@ -25,15 +24,10 @@ void LineBrush::BrushBegin(const Point source, const Point target) {
 	line_size = pDoc->getSize();
 
 	glLineWidth(dlg->getLineWidth());
-	// glRotatef(dlg->getLineAngle(), 0, 0, 1.0); // Note: add this line of code in scattered line brush as well
-	// std::cout << "line " << dlg->getLineWidth() << " " << dlg->getLineAngle();
 	last_point = source;
 	BrushMove(source, target);
 }
 
-// void LineBrush::StrokeHandler(const Point source, const Point target) {
-
-// }
 
 void LineBrush::BrushMove(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
