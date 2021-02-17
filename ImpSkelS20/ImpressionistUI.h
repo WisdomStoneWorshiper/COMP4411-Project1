@@ -37,8 +37,9 @@ class ImpressionistUI {
 	Fl_Choice* m_BrushTypeChoice;
 
 	Fl_Choice* m_StrokeDirectionChoice;
-
 	Fl_Slider* m_BrushSizeSlider;
+	Fl_Slider* m_LineWidthSlider;
+	Fl_Slider* m_LineAngleSlider;
 	Fl_Button* m_ClearCanvasButton;
 
 	// Member functions
@@ -52,12 +53,18 @@ class ImpressionistUI {
 
 	int getSize();
 	void setSize(int size);
+	int getLineWidth();
+	void setLineWidth(int lineWidth);
+	int getLineAngle();
+	void setLineAngle(int lineAngle);
 
    private:
 	ImpressionistDoc* m_pDoc;  // pointer to document to communicate with the document
 
 	// All attributes here
 	int m_nSize;
+	int m_nLineWidth;
+	int m_nLineAngle;
 
 	// Static class members
 	static Fl_Menu_Item menuitems[];
@@ -75,9 +82,11 @@ class ImpressionistUI {
 	static void cb_exit(Fl_Menu_* o, void* v);
 	static void cb_about(Fl_Menu_* o, void* v);
 	static void cb_brushChoice(Fl_Widget* o, void* v);
-	static void cb_strokeChoice(Fl_Widget* o, void* v);
 	static void cb_clear_canvas_button(Fl_Widget* o, void* v);
 	static void cb_sizeSlides(Fl_Widget* o, void* v);
+	static void cb_LineWidthSlides(Fl_Widget* o, void* v);
+	static void cb_LineAngleSlides(Fl_Widget* o, void* v);
+	static void cb_strokeChoice(Fl_Widget* o, void* v);
 };
 
 #endif

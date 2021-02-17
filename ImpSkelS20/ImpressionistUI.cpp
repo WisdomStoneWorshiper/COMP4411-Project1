@@ -273,6 +273,13 @@ void ImpressionistUI::cb_sizeSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nSize = int(((Fl_Slider*)o)->value());
 }
 
+void ImpressionistUI::cb_LineWidthSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nLineWidth = int(((Fl_Slider*)o)->value());
+}
+
+void ImpressionistUI::cb_LineAngleSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nLineAngle = int(((Fl_Slider*)o)->value());
+}
 //---------------------------------- per instance functions --------------------------------------
 
 //------------------------------------------------
@@ -321,6 +328,22 @@ void ImpressionistUI::setSize(int size) {
 	m_nSize = size;
 
 	if (size <= 40) m_BrushSizeSlider->value(m_nSize);
+}
+
+int ImpressionistUI::getLineWidth() { return m_nLineWidth; }
+
+void ImpressionistUI::setLineWidth(int lineWidth) {
+	m_nLineWidth = lineWidth;
+
+	if (lineWidth <= 40) m_LineWidthSlider->value(m_nLineWidth);
+}
+
+int ImpressionistUI::getLineAngle() { return m_nLineAngle; }
+
+void ImpressionistUI::setLineAngle(int lineAngle) {
+	m_nLineAngle = lineAngle;
+
+	if (lineAngle <= 359) m_LineAngleSlider->value(m_nLineAngle);
 }
 
 // Main menu definition
@@ -418,6 +441,30 @@ ImpressionistUI::ImpressionistUI() {
 	m_BrushSizeSlider->value(m_nSize);
 	m_BrushSizeSlider->align(FL_ALIGN_RIGHT);
 	m_BrushSizeSlider->callback(cb_sizeSlides);
+
+	m_LineWidthSlider = new Fl_Value_Slider(10, 100, 300, 20, "Line Width");
+	m_LineWidthSlider->user_data((void*)(this));  // record self to be used by static callback functions
+	m_LineWidthSlider->type(FL_HOR_NICE_SLIDER);
+	m_LineWidthSlider->labelfont(FL_COURIER);
+	m_LineWidthSlider->labelsize(12);
+	m_LineWidthSlider->minimum(1);
+	m_LineWidthSlider->maximum(40);
+	m_LineWidthSlider->step(1);
+	m_LineWidthSlider->value(m_nLineWidth);
+	m_LineWidthSlider->align(FL_ALIGN_RIGHT);
+	m_LineWidthSlider->callback(cb_LineWidthSlides);
+
+	m_LineAngleSlider = new Fl_Value_Slider(10, 120, 300, 20, "Line Angle");
+	m_LineAngleSlider->user_data((void*)(this));  // record self to be used by static callback functions
+	m_LineAngleSlider->type(FL_HOR_NICE_SLIDER);
+	m_LineAngleSlider->labelfont(FL_COURIER);
+	m_LineAngleSlider->labelsize(12);
+	m_LineAngleSlider->minimum(0);
+	m_LineAngleSlider->maximum(359);
+	m_LineAngleSlider->step(1);
+	m_LineAngleSlider->value(m_nLineAngle);
+	m_LineAngleSlider->align(FL_ALIGN_RIGHT);
+	m_LineAngleSlider->callback(cb_LineAngleSlides);
 
 	m_brushDialog->end();
 }
