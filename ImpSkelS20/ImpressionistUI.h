@@ -7,6 +7,11 @@
 #ifndef ImpressionistUI_h
 #define ImpressionistUI_h
 
+#include "ImpBrush.h"
+#include "Impressionist.h"
+#include "OriginalView.h"
+#include "PaintView.h"
+
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
@@ -14,15 +19,10 @@
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Value_Slider.H>
 #include <FL/Fl_Window.H>
-#include <FL/fl_file_chooser.H>	 // FLTK file chooser
-
-#include "ImpBrush.h"
-#include "Impressionist.h"
-#include "OriginalView.h"
-#include "PaintView.h"
+#include <FL/fl_file_chooser.H> // FLTK file chooser
 
 class ImpressionistUI {
-   public:
+public:
 	ImpressionistUI();
 
 	// The FLTK widgets
@@ -58,8 +58,8 @@ class ImpressionistUI {
 	int getLineAngle();
 	void setLineAngle(int lineAngle);
 
-   private:
-	ImpressionistDoc* m_pDoc;  // pointer to document to communicate with the document
+private:
+	ImpressionistDoc* m_pDoc; // pointer to document to communicate with the document
 
 	// All attributes here
 	int m_nSize;
