@@ -39,7 +39,7 @@ void ScatteredCircleBrush::BrushMove(const Point source, const Point target) {
 	}
 
 	glBegin(GL_POINTS);
-	for (int i = 0; i < radius * radius * M_PI / 2; ++i) {
+	for (int i = 0; i < radius * radius * M_PI / 3; ++i) {
 		double r_offset = frand() * radius;
 		double t_offset = (frand() * 360) * CONVERT_TO_RADS;
 		int x_offset = r_offset * cos(t_offset);
