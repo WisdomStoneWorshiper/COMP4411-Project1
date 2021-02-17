@@ -7,13 +7,14 @@
 
 #include "ImpressionistDoc.h"
 
-#include <FL/fl_ask.H>
-
 #include "ImpBrush.h"
 #include "ImpressionistUI.h"
 
+#include <FL/fl_ask.H>
+
 // Include individual brush headers here.
 #include "CircleBrush.h"
+#include "DirectionLine.h"
 #include "LineBrush.h"
 #include "PointBrush.h"
 #include "ScatteredCircleBrush.h"
@@ -50,6 +51,7 @@ ImpressionistDoc::ImpressionistDoc() {
 
 	// make one of the brushes current
 	m_pCurrentBrush = ImpBrush::c_pBrushes[0];
+	m_pDirectionLine = new DirectionLine(this, "Direction Line");
 }
 
 //---------------------------------------------------------
@@ -95,8 +97,10 @@ int ImpressionistDoc::loadImage(char* iname) {
 	m_nPaintHeight = height;
 
 	// release old storage
-	if (m_ucBitmap) delete[] m_ucBitmap;
-	if (m_ucPainting) delete[] m_ucPainting;
+	if (m_ucBitmap)
+		delete[] m_ucBitmap;
+	if (m_ucPainting)
+		delete[] m_ucPainting;
 
 	m_ucBitmap = data;
 

@@ -13,22 +13,22 @@
 class ImpressionistUI;
 
 class ImpressionistDoc {
-   public:
+public:
 	ImpressionistDoc();
 
-	void setUI(ImpressionistUI* ui);  // Assign the UI to use
+	void setUI(ImpressionistUI* ui); // Assign the UI to use
 
-	int loadImage(char* iname);	 // called by the UI to load image
-	int saveImage(char* iname);	 // called by the UI to save image
+	int loadImage(char* iname); // called by the UI to load image
+	int saveImage(char* iname); // called by the UI to save image
 
-	int clearCanvas();			  // called by the UI to clear the drawing canvas
-	void setBrushType(int type);  // called by the UI to set the brushType
-	int getSize();				  // get the UI size
-	void setSize(int size);		  // set the UI size
-	char* getImageName();		  // get the current image name
+	int clearCanvas();			 // called by the UI to clear the drawing canvas
+	void setBrushType(int type); // called by the UI to set the brushType
+	int getSize();				 // get the UI size
+	void setSize(int size);		 // set the UI size
+	char* getImageName();		 // get the current image name
 
 	// Attributes
-   public:
+public:
 	// Dimensions of original window.
 	int m_nWidth, m_nHeight;
 	// Dimensions of the paint window.
@@ -39,19 +39,20 @@ class ImpressionistDoc {
 
 	// The current active brush.
 	ImpBrush* m_pCurrentBrush;
+	ImpBrush* m_pDirectionLine;
 	// Size of the brush.
 	int m_nSize;
 
 	ImpressionistUI* m_pUI;
 
 	// Operations
-   public:
+public:
 	// Get the color of the original picture at the specified coord
 	GLubyte* GetOriginalPixel(int x, int y);
 	// Get the color of the original picture at the specified point
 	GLubyte* GetOriginalPixel(const Point p);
 
-   private:
+private:
 	char m_imageName[256];
 };
 

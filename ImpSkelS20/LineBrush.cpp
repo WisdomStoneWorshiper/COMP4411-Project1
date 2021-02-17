@@ -13,15 +13,17 @@
 extern float frand();
 
 LineBrush::LineBrush(ImpressionistDoc* pDoc, char* name) : ImpBrush(pDoc, name) {}
+#include "iostream"
 
 void LineBrush::BrushBegin(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
 	line_size = pDoc->getSize();
-	glLineWidth(dlg->getLineWidth());
-	glRotatef(dlg->getLineAngle(), 0, 0, 1.0); //Note: add this line of code in scattered line brush as well
 
+	glLineWidth(dlg->getLineWidth());
+	glRotatef(dlg->getLineAngle(), 0, 0, 1.0); // Note: add this line of code in scattered line brush as well
+	std::cout << "line " << dlg->getLineWidth() << " " << dlg->getLineAngle();
 	BrushMove(source, target);
 }
 

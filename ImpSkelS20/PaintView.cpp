@@ -11,16 +11,16 @@
 #include "ImpressionistDoc.h"
 #include "ImpressionistUI.h"
 
-#define LEFT_MOUSE_DOWN 1
-#define LEFT_MOUSE_DRAG 2
-#define LEFT_MOUSE_UP 3
+#define LEFT_MOUSE_DOWN	 1
+#define LEFT_MOUSE_DRAG	 2
+#define LEFT_MOUSE_UP	 3
 #define RIGHT_MOUSE_DOWN 4
 #define RIGHT_MOUSE_DRAG 5
-#define RIGHT_MOUSE_UP 6
+#define RIGHT_MOUSE_UP	 6
 
 #ifndef WIN32
-#define min(a, b) (((a) < (b)) ? (a) : (b))
-#define max(a, b) (((a) > (b)) ? (a) : (b))
+	#define min(a, b) (((a) < (b)) ? (a) : (b))
+	#define max(a, b) (((a) > (b)) ? (a) : (b))
 #endif
 
 static int eventToDo;
@@ -36,7 +36,7 @@ void PaintView::draw() {
 #ifndef MESA
 	// To avoid flicker on some machines.
 	glDrawBuffer(GL_FRONT_AND_BACK);
-#endif	// !MESA
+#endif // !MESA
 
 	if (!valid()) {
 		glClearColor(0.7f, 0.7f, 0.7f, 1.0);
@@ -49,7 +49,7 @@ void PaintView::draw() {
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
-	Point scrollpos;  // = GetScrollPosition();
+	Point scrollpos; // = GetScrollPosition();
 	scrollpos.x = 0;
 	scrollpos.y = 0;
 
@@ -61,7 +61,8 @@ void PaintView::draw() {
 	drawHeight = min(m_nWindowHeight, m_pDoc->m_nPaintHeight);
 
 	int startrow = m_pDoc->m_nPaintHeight - (scrollpos.y + drawHeight);
-	if (startrow < 0) startrow = 0;
+	if (startrow < 0)
+		startrow = 0;
 
 	m_pPaintBitstart = m_pDoc->m_ucPainting + 3 * ((m_pDoc->m_nPaintWidth * startrow) + scrollpos.x);
 
@@ -86,12 +87,8 @@ void PaintView::draw() {
 
 		// This is the event handler
 		switch (eventToDo) {
-			case LEFT_MOUSE_DOWN:
-				m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
-				break;
-			case LEFT_MOUSE_DRAG:
-				m_pDoc->m_pCurrentBrush->BrushMove(source, target);
-				break;
+			case LEFT_MOUSE_DOWN: m_pDoc->m_pCurrentBrush->BrushBegin(source, target); break;
+			case LEFT_MOUSE_DRAG: m_pDoc->m_pCurrentBrush->BrushMove(source, target); break;
 			case LEFT_MOUSE_UP:
 				m_pDoc->m_pCurrentBrush->BrushEnd(source, target);
 
@@ -99,18 +96,18 @@ void PaintView::draw() {
 				RestoreContent();
 				break;
 			case RIGHT_MOUSE_DOWN:
-
+				SaveCurrentContent();
+				m_pDoc->m_pDirectionLine->BrushBegin(source, target);
 				break;
+
 			case RIGHT_MOUSE_DRAG:
-
-				break;
-			case RIGHT_MOUSE_UP:
-
+				RestoreContent();
+				m_pDoc->m_pDirectionLine->BrushMove(source, target);
 				break;
 
-			default:
-				printf("Unknown event!!\n");
-				break;
+			case RIGHT_MOUSE_UP: m_pDoc->m_pDirectionLine->BrushEnd(source, target); break;
+
+			default: printf("Unknown event!!\n"); break;
 		}
 	}
 
@@ -119,14 +116,12 @@ void PaintView::draw() {
 #ifndef MESA
 	// To avoid flicker on some machines.
 	glDrawBuffer(GL_BACK);
-#endif	// !MESA
+#endif // !MESA
 }
 
 int PaintView::handle(int event) {
 	switch (event) {
-		case FL_ENTER:
-			redraw();
-			break;
+		case FL_ENTER: redraw(); break;
 		case FL_PUSH:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
@@ -161,9 +156,7 @@ int PaintView::handle(int event) {
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
 			break;
-		default:
-			return 0;
-			break;
+		default: return 0; break;
 	}
 
 	return 1;
