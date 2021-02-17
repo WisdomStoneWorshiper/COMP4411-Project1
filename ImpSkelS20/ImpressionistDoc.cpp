@@ -35,6 +35,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	m_nWidth = -1;
 	m_ucBitmap = NULL;
 	m_ucPainting = NULL;
+	m_pStroke = 0;
 
 	// create one instance of each brush
 	ImpBrush::c_nBrushCount = NUM_BRUSH_TYPE;

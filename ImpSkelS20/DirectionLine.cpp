@@ -26,8 +26,6 @@ void DirectionLine::BrushBegin(const Point source, const Point target) {
 
 void DirectionLine::BrushMove(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
-	if (end_pt.x == target.x && end_pt.y == target.y)
-		return;
 	end_pt.x = target.x;
 	end_pt.y = target.y;
 	if (pDoc == NULL) {
@@ -46,12 +44,12 @@ void DirectionLine::BrushMove(const Point source, const Point target) {
 
 	glEnd();
 }
-#include "iostream"
+// #include "iostream"
 void DirectionLine::BrushEnd(const Point source, const Point target) {
 	// do nothing so far
 	ImpressionistUI* dlg = GetDocument()->m_pUI;
-	int line_width = sqrt(pow(start_pt.x - end_pt.x, 2) + pow(start_pt.y - end_pt.y, 2));
-	dlg->setLineWidth(line_width);
-	dlg->setLineAngle(cos(abs(start_pt.x - end_pt.x) / line_width) * 180.0 / M_PI);
-	std::cout << "d " << line_width << " " << cos(abs(start_pt.x - end_pt.x) / line_width);
+	int line_size = sqrt(pow(start_pt.x - end_pt.x, 2) + pow(start_pt.y - end_pt.y, 2));
+	dlg->setSize(line_size);
+	dlg->setLineAngle((int)(atan2(end_pt.y - start_pt.y, end_pt.x - start_pt.x) * 180.0 / M_PI));
+	// std::cout << "d " << line_width << " " << cos(abs(start_pt.x - end_pt.x) / line_width);
 }
