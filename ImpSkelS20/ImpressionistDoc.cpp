@@ -70,6 +70,9 @@ char* ImpressionistDoc::getImageName() { return m_imageName; }
 //---------------------------------------------------------
 void ImpressionistDoc::setBrushType(int type) { m_pCurrentBrush = ImpBrush::c_pBrushes[type]; }
 
+void ImpressionistDoc::setStrokeType(int type) { m_pStroke = type; }
+
+int ImpressionistDoc::getStrokeType() { return m_pStroke; }
 //---------------------------------------------------------
 // Returns the size of the brush.
 //---------------------------------------------------------

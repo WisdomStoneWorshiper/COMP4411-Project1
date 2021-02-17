@@ -101,11 +101,16 @@ void PaintView::draw() {
 				break;
 
 			case RIGHT_MOUSE_DRAG:
+				// glDrawBuffer(GL_BACK);
+				// glClear(GL_COLOR_BUFFER_BIT);
 				RestoreContent();
 				m_pDoc->m_pDirectionLine->BrushMove(source, target);
 				break;
 
-			case RIGHT_MOUSE_UP: m_pDoc->m_pDirectionLine->BrushEnd(source, target); break;
+			case RIGHT_MOUSE_UP:
+				m_pDoc->m_pDirectionLine->BrushEnd(source, target);
+				RestoreContent();
+				break;
 
 			default: printf("Unknown event!!\n"); break;
 		}

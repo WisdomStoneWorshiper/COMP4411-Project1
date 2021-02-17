@@ -251,7 +251,7 @@ void ImpressionistUI::cb_strokeChoice(Fl_Widget* o, void* v) {
 
 	int type = (int)(size_t)v;
 
-	pDoc->setBrushType(type);
+	pDoc->setStrokeType(type);
 }
 
 //------------------------------------------------------------
@@ -377,7 +377,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 Fl_Menu_Item ImpressionistUI::strokeDirectionMenu[NUM_STROKE_TYPE + 1] = {
 	{"Slider/Right Click", FL_ALT + 's', (Fl_Callback*)ImpressionistUI::cb_strokeChoice, (void*)SLIDER_RIGHT_CLICK},
 	{"Gradient", FL_ALT + 'g', (Fl_Callback*)ImpressionistUI::cb_strokeChoice, (void*)GRADIENT},
-	{"Brush Direction", FL_ALT + 'b', (Fl_Callback*)ImpressionistUI::cb_strokeChoice, (void*)BRUSH_DIRECTIOM},
+	{"Brush Direction", FL_ALT + 'b', (Fl_Callback*)ImpressionistUI::cb_strokeChoice, (void*)BRUSH_DIRECTION},
 	{0}};
 
 //----------------------------------------------------

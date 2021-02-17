@@ -58,6 +58,7 @@ public:
 	int getLineAngle();
 	void setLineAngle(int lineAngle);
 
+
 private:
 	ImpressionistDoc* m_pDoc; // pointer to document to communicate with the document
 

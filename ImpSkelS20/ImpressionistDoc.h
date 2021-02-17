@@ -21,11 +21,13 @@ public:
 	int loadImage(char* iname); // called by the UI to load image
 	int saveImage(char* iname); // called by the UI to save image
 
-	int clearCanvas();			 // called by the UI to clear the drawing canvas
-	void setBrushType(int type); // called by the UI to set the brushType
-	int getSize();				 // get the UI size
-	void setSize(int size);		 // set the UI size
-	char* getImageName();		 // get the current image name
+	int clearCanvas();			  // called by the UI to clear the drawing canvas
+	void setBrushType(int type);  // called by the UI to set the brushType
+	void setStrokeType(int type); // called by the UI to set the StrokeType
+	int getStrokeType();
+	int getSize();			// get the UI size
+	void setSize(int size); // set the UI size
+	char* getImageName();	// get the current image name
 
 	// Attributes
 public:
@@ -36,6 +38,8 @@ public:
 	// Bitmaps for original image and painting.
 	unsigned char* m_ucBitmap;
 	unsigned char* m_ucPainting;
+
+	int m_pStroke;
 
 	// The current active brush.
 	ImpBrush* m_pCurrentBrush;
