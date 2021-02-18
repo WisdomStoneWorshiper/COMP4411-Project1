@@ -60,14 +60,11 @@ void LineBrush::BrushMove(const Point source, const Point target) {
 				}
 			}
 			dir = (atan2(gy, gx)) + M_PI / 2;
-			// if (dir > 360) {
-			// 	dir -= 360;
-			// }
-			// glRotatef(dir, 0, 0, 1.0);
+
 			x_offset = line_size * cos(dir) / 2;
 			y_offset = line_size * sin(dir) / 2;
 
-			// std::cout << "d " << dir;
+
 			break;
 		case BRUSH_DIRECTION:
 			dir = atan2(last_point.y - target.y, last_point.x - target.x);

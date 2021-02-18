@@ -32,6 +32,8 @@ PaintView::PaintView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x
 	m_nWindowHeight = h;
 }
 
+static Point last_point;
+
 void PaintView::draw() {
 #ifndef MESA
 	// To avoid flicker on some machines.
@@ -74,16 +76,26 @@ void PaintView::draw() {
 	m_nStartCol = scrollpos.x;
 	m_nEndCol = m_nStartCol + drawWidth;
 
+	// RestoreContent();
+	Point source(coord.x + m_nStartCol, m_nEndRow - coord.y);
+	Point target(coord.x, m_nWindowHeight - coord.y);
+	glPointSize(3);
+	glBegin(GL_POINTS);
+	GLubyte color[3];
+	color[0] = 255;
+	glColor3ubv(color);
+	glVertex2d(last_point.x, last_point.y);
+	glEnd();
+
 	if (m_pDoc->m_ucPainting && !isAnEvent) {
 		RestoreContent();
 	}
+
 
 	if (m_pDoc->m_ucPainting && isAnEvent) {
 		// Clear it after processing.
 		isAnEvent = 0;
 
-		Point source(coord.x + m_nStartCol, m_nEndRow - coord.y);
-		Point target(coord.x, m_nWindowHeight - coord.y);
 
 		// glEnable(GL_BLEND);
 		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -104,8 +116,6 @@ void PaintView::draw() {
 				break;
 
 			case RIGHT_MOUSE_DRAG:
-				// glDrawBuffer(GL_BACK);
-				// glClear(GL_COLOR_BUFFER_BIT);
 				RestoreContent();
 				m_pDoc->m_pDirectionLine->BrushMove(source, target);
 				break;
@@ -133,6 +143,7 @@ int PaintView::handle(int event) {
 		case FL_PUSH:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
+			last_point = coord;
 			if (Fl::event_button() > 1)
 				eventToDo = RIGHT_MOUSE_DOWN;
 			else
@@ -143,6 +154,7 @@ int PaintView::handle(int event) {
 		case FL_DRAG:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
+			last_point = coord;
 			if (Fl::event_button() > 1)
 				eventToDo = RIGHT_MOUSE_DRAG;
 			else
@@ -153,6 +165,7 @@ int PaintView::handle(int event) {
 		case FL_RELEASE:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
+			last_point = coord;
 			if (Fl::event_button() > 1)
 				eventToDo = RIGHT_MOUSE_UP;
 			else
@@ -163,6 +176,9 @@ int PaintView::handle(int event) {
 		case FL_MOVE:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
+			last_point = coord;
+			redraw();
+
 			break;
 		default: return 0; break;
 	}
