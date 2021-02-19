@@ -69,7 +69,7 @@ private:
 	int m_nSize;
 	int m_nLineWidth;
 	int m_nLineAngle;
-	int m_nAlpha;
+	float m_nAlpha;
 
 	// Static class members
 	static Fl_Menu_Item menuitems[];
