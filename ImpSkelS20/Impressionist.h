@@ -3,7 +3,7 @@
 #define SAMPLE_SOLUTION
 #include <FL/Fl.h>
 #include <FL/gl.h>
-#include <OpenGL/glu.h>
+#include <GL/glu.h>
 #include <stdio.h>
 
 #include "ImpBrush.h"

@@ -10,7 +10,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Gl_Window.H>
 #include <FL/gl.h>
-#include <OpenGL/glu.h>
+#include <GL/glu.h>
 #include <stdlib.h>
 
 class ImpressionistDoc;
