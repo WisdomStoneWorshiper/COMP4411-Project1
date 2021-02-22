@@ -172,11 +172,11 @@ int PaintView::handle(int event) {
 			coord.y = Fl::event_y();
 			// last_point = coord;
 			// redraw();
-
+			m_pDoc->m_pUI->m_origView->cursorMove(coord.x, coord.y);
 			break;
 		default: return 0; break;
 	}
-	m_pDoc->m_pUI->m_origView->cursorMove(coord.x, coord.y);
+
 	return 1;
 }
 

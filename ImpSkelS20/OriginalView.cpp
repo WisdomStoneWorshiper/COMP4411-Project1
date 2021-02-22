@@ -66,19 +66,16 @@ void OriginalView::draw() {
 		glPixelStorei(GL_UNPACK_ROW_LENGTH, m_pDoc->m_nWidth);
 		glDrawBuffer(GL_BACK);
 		glDrawPixels(drawWidth, drawHeight, GL_RGB, GL_UNSIGNED_BYTE, bitstart);
+		// if (cursor_x >= 0 && cursor_y >= 0 && cursor_x < m_nWindowWidth && cursor_y < m_nWindowHeight) {
+		glPointSize(5);
+		glBegin(GL_POINTS);
+		GLubyte color[3];
+		color[0] = 255;
+		glColor3ubv(color);
+		glVertex2d(cursor_x, m_nWindowHeight - cursor_y);
+		glEnd();
+		// }
 	}
-
-	glDrawBuffer(GL_FRONT_AND_BACK);
-
-	glBegin(GL_POINTS);
-	GLubyte color[3];
-	color[0] = 255;
-
-	glColor3ubv(color);
-
-	glVertex2d(cursor_x, cursor_y);
-	glEnd();
-	std::cout << "yo";
 
 	glFlush();
 }
