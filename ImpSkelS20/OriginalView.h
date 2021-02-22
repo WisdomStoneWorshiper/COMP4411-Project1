@@ -27,14 +27,14 @@ public:
 
 	void resizeWindow(int width, int height);
 
-	void cursorMove(int x, int y);
+	void cursorMove(const Point curr_pos);
 
 	ImpressionistDoc* m_pDoc;
 
 private:
 	int m_nWindowWidth, m_nWindowHeight;
 
-	int cursor_x, cursor_y;
+	Point cursor;
 };
 
 #endif

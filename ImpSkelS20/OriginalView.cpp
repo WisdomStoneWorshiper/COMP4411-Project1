@@ -16,8 +16,8 @@
 OriginalView::OriginalView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x, y, w, h, l) {
 	m_nWindowWidth = w;
 	m_nWindowHeight = h;
-	cursor_x = 0;
-	cursor_y = 0;
+	cursor.x = 0;
+	cursor.y = 0;
 }
 #include <iostream>
 
@@ -66,24 +66,22 @@ void OriginalView::draw() {
 		glPixelStorei(GL_UNPACK_ROW_LENGTH, m_pDoc->m_nWidth);
 		glDrawBuffer(GL_BACK);
 		glDrawPixels(drawWidth, drawHeight, GL_RGB, GL_UNSIGNED_BYTE, bitstart);
-		// if (cursor_x >= 0 && cursor_y >= 0 && cursor_x < m_nWindowWidth && cursor_y < m_nWindowHeight) {
 		glPointSize(5);
 		glBegin(GL_POINTS);
 		GLubyte color[3];
 		color[0] = 255;
 		glColor3ubv(color);
-		glVertex2d(cursor_x, m_nWindowHeight - cursor_y);
+		glVertex2d(cursor.x, m_nWindowHeight - cursor.y);
 		glEnd();
-		// }
 	}
 
 	glFlush();
 }
 
-void OriginalView::cursorMove(int x, int y) {
+void OriginalView::cursorMove(const Point curr_pos) {
 	// glDrawBuffer(GL_BACK);
-	cursor_x = x;
-	cursor_y = y;
+	cursor = curr_pos;
+
 	redraw();
 }
 
