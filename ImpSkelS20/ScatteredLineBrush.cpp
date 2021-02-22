@@ -44,8 +44,9 @@ void ScatteredLineBrush::BrushMove(const Point source, const Point target) {
 	for (int i = 0; i < curr_lines; ++i) {
 		double dir = 0;
 		int gx = 0, gy = 0;
-		int x_offset = 0;
-		int y_offset = 0;
+		Point offset;
+		offset.x = 0;
+		offset.y = 0;
 		int ran_x = frand() * 2 * ran_size - ran_size;
 		int ran_y = frand() * 2 * ran_size - ran_size;
 		Point ran_src = Point(source.x + ran_x, source.y + ran_y);
@@ -53,8 +54,8 @@ void ScatteredLineBrush::BrushMove(const Point source, const Point target) {
 		switch (pDoc->getStrokeType()) {
 			case SLIDER_RIGHT_CLICK:
 				dir = (dlg->getLineAngle() / 180.0) * M_PI;
-				x_offset = line_size * cos(dir) / 2;
-				y_offset = line_size * sin(dir) / 2;
+				offset.x = line_size * cos(dir) / 2;
+				offset.y = line_size * sin(dir) / 2;
 				break;
 			case GRADIENT:
 
@@ -69,15 +70,15 @@ void ScatteredLineBrush::BrushMove(const Point source, const Point target) {
 					}
 				}
 				dir = (atan2(gy, gx)) + M_PI / 2;
-				x_offset = line_size * cos(dir) / 2;
-				y_offset = line_size * sin(dir) / 2;
+				offset.x = line_size * cos(dir) / 2;
+				offset.y = line_size * sin(dir) / 2;
 
 				// std::cout << "d " << dir;
 				break;
 			case BRUSH_DIRECTION:
 				dir = atan2(last_point.y - target.y, last_point.x - target.x);
-				x_offset = line_size * cos(dir) / 2;
-				y_offset = line_size * sin(dir) / 2;
+				offset.x = line_size * cos(dir) / 2;
+				offset.y = line_size * sin(dir) / 2;
 
 				break;
 
@@ -87,17 +88,46 @@ void ScatteredLineBrush::BrushMove(const Point source, const Point target) {
 
 		glBegin(GL_LINES);
 		SetColor(ran_src);
-
-		glVertex2d(target.x - x_offset + ran_x, target.y - y_offset + ran_y);
-		glVertex2d(target.x + x_offset + ran_x, target.y + y_offset + ran_y);
+		Point ran_tar = Point(target.x + ran_x, target.y + ran_y);
+		ClipBrushStroke(ran_tar, offset);
+		// glVertex2d(target.x - offset.x + ran_x, target.y - offset.y + ran_y);
+		// glVertex2d(target.x + offset.x + ran_x, target.y + offset.y + ran_y);
 
 		glEnd();
 	}
 	last_point = target;
 }
 
-void ScatteredLineBrush::ClipBrushStroke(const Point source, const Point target) {
-	// do nothing so far
+void ScatteredLineBrush::ClipBrushStroke(const Point target, const Point offset) {
+	ImpressionistDoc* pDoc = GetDocument();
+	Point p1 = target, p2 = target;
+	p1.x += offset.x;
+	p2.x -= offset.x;
+	p1.y += offset.y;
+	p2.y -= offset.y;
+	double a = p2.y - p1.y;
+	double b = p1.x - p2.x;
+	double c = a * (p1.x) + b * (p1.y);
+	Point* curr_point = &p1;
+	for (int i = 0; i < 2; ++i) {
+		if (curr_point->x < 0) {
+			curr_point->x = 0;
+			curr_point->y = c / b;
+		} else if (curr_point->x > pDoc->m_pUI->m_paintView->get_m_nDrawWidth()) {
+			curr_point->x = pDoc->m_pUI->m_paintView->get_m_nDrawWidth();
+			curr_point->y = (c - a * curr_point->x) / b;
+		}
+		if (curr_point->y < 0) {
+			curr_point->y = 0;
+			curr_point->x = c / a;
+		} else if (curr_point->y > pDoc->m_pUI->m_paintView->get_m_nDrawHeight()) {
+			curr_point->y = pDoc->m_pUI->m_paintView->get_m_nDrawHeight();
+			curr_point->x = (c - b * curr_point->y) / a;
+		}
+		curr_point = &p2;
+	}
+	glVertex2d(p1.x, p1.y);
+	glVertex2d(p2.x, p2.y);
 }
 
 void ScatteredLineBrush::BrushEnd(const Point source, const Point target) {

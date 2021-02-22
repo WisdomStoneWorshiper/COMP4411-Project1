@@ -111,14 +111,15 @@ void PaintView::draw() {
 				break;
 
 			case RIGHT_MOUSE_DRAG:
-
-				m_pDoc->m_pDirectionLine->BrushMove(source, target);
 				RestoreContent();
+				m_pDoc->m_pDirectionLine->BrushMove(source, target);
+
 				break;
 
 			case RIGHT_MOUSE_UP:
+				// RestoreContent();
 				m_pDoc->m_pDirectionLine->BrushEnd(source, target);
-				RestoreContent();
+				// RestoreContent();
 				break;
 
 			default: printf("Unknown event!!\n"); break;

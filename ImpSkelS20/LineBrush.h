@@ -16,7 +16,7 @@ public:
 	void BrushBegin(const Point source, const Point target);
 	void BrushMove(const Point source, const Point target);
 	void BrushEnd(const Point source, const Point target);
-	void ClipBrushStroke(const Point source, const Point target);
+	void ClipBrushStroke(const Point target, const Point offset);
 	char* BrushName(void);
 
 private:
