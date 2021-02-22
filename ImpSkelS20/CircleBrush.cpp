@@ -43,6 +43,10 @@ void CircleBrush::BrushMove(const Point source, const Point target) {
 	glEnd();
 }
 
+void CircleBrush::ClipBrushStroke(const Point source, const Point target) {
+	// do nothing so far
+}
+
 void CircleBrush::BrushEnd(const Point source, const Point target) {
 	// do nothing so far
 }

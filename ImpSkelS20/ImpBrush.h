@@ -7,8 +7,8 @@
 // The header file of virtual brush. All the other brushes inherit from it.
 //
 
-#include <stdlib.h>
 #include <cmath>
+#include <stdlib.h>
 
 // Each brush type has an associated constant.
 enum {
@@ -50,6 +50,8 @@ public:
 	virtual void BrushBegin(const Point source, const Point target) = 0;
 	virtual void BrushMove(const Point source, const Point target) = 0;
 	virtual void BrushEnd(const Point source, const Point target) = 0;
+	virtual void ClipBrushStroke(const Point source, const Point target) = 0;
+
 
 	// according to the source image and the position, determine the draw color
 	void SetColor(const Point source);

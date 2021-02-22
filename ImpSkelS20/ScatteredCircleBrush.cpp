@@ -53,6 +53,10 @@ void ScatteredCircleBrush::BrushMove(const Point source, const Point target) {
 	glEnd();
 }
 
+void ScatteredCircleBrush::ClipBrushStroke(const Point source, const Point target) {
+	// do nothing so far
+}
+
 void ScatteredCircleBrush::BrushEnd(const Point source, const Point target) {
 	// do nothing so far
 }

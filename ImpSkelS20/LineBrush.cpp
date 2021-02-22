@@ -87,6 +87,10 @@ void LineBrush::BrushMove(const Point source, const Point target) {
 	glEnd();
 }
 
+void LineBrush::ClipBrushStroke(const Point source, const Point target) {
+	// do nothing so far
+}
+
 void LineBrush::BrushEnd(const Point source, const Point target) {
 	// do nothing so far
 }

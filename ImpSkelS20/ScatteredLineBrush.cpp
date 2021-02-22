@@ -96,6 +96,10 @@ void ScatteredLineBrush::BrushMove(const Point source, const Point target) {
 	last_point = target;
 }
 
+void ScatteredLineBrush::ClipBrushStroke(const Point source, const Point target) {
+	// do nothing so far
+}
+
 void ScatteredLineBrush::BrushEnd(const Point source, const Point target) {
 	// do nothing so far
 }

@@ -44,6 +44,10 @@ void DirectionLine::BrushMove(const Point source, const Point target) {
 
 	glEnd();
 }
+
+void DirectionLine::ClipBrushStroke(const Point source, const Point target) {
+	// do nothing so far
+}
 // #include "iostream"
 void DirectionLine::BrushEnd(const Point source, const Point target) {
 	// do nothing so far

@@ -49,6 +49,9 @@ void ScatteredPointBrush::BrushMove(const Point source, const Point target) {
 	glEnd();
 }
 
+void ScatteredPointBrush::ClipBrushStroke(const Point source, const Point target) {}
+
+
 void ScatteredPointBrush::BrushEnd(const Point source, const Point target) {
 	// do nothing so far
 }

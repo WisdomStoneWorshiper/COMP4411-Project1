@@ -8,14 +8,15 @@
 #include "ImpBrush.h"
 
 class ScatteredPointBrush : public ImpBrush {
-   public:
+public:
 	ScatteredPointBrush(ImpressionistDoc* pDoc = NULL, char* name = NULL);
 
 	void BrushBegin(const Point source, const Point target);
 	void BrushMove(const Point source, const Point target);
 	void BrushEnd(const Point source, const Point target);
+	void ClipBrushStroke(const Point source, const Point target);
 	char* BrushName(void);
 
-   private:
+private:
 	int brush_range;
 };
