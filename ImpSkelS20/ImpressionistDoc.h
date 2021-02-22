@@ -10,6 +10,8 @@
 #include "Bitmap.h"
 #include "Impressionist.h"
 
+const int UNDO_LEVEL = 5;
+
 class ImpressionistUI;
 
 class ImpressionistDoc {
@@ -30,6 +32,9 @@ public:
 	void setStrokeType(int type); // called by the UI to set the StrokeType
 	int getStrokeType();
 
+	void recordPainting();
+	void undo();
+
 	// Attributes
 public:
 	// Dimensions of original window.
@@ -38,6 +43,7 @@ public:
 	int m_nPaintWidth, m_nPaintHeight;
 	// Bitmaps for original image and painting.
 	unsigned char* m_ucBitmap;
+
 	unsigned char* m_ucPainting;
 
 	int m_pStroke;
@@ -58,6 +64,8 @@ public:
 	GLubyte* GetOriginalPixel(const Point p);
 
 private:
+	int undo_header;
+	unsigned char* m_last_ucPainting[UNDO_LEVEL];
 	char m_imageName[256];
 };
 

@@ -11,6 +11,8 @@
 #include "ImpressionistDoc.h"
 #include "ImpressionistUI.h"
 
+#include <iostream>
+
 #define LEFT_MOUSE_DOWN	 1
 #define LEFT_MOUSE_DRAG	 2
 #define LEFT_MOUSE_UP	 3
@@ -67,7 +69,6 @@ void PaintView::draw() {
 	int startrow = m_pDoc->m_nPaintHeight - (scrollpos.y + drawHeight);
 	if (startrow < 0)
 		startrow = 0;
-
 	m_pPaintBitstart = m_pDoc->m_ucPainting + 3 * ((m_pDoc->m_nPaintWidth * startrow) + scrollpos.x);
 
 	m_nDrawWidth = drawWidth;
@@ -97,11 +98,14 @@ void PaintView::draw() {
 
 		// This is the event handler
 		switch (eventToDo) {
-			case LEFT_MOUSE_DOWN: m_pDoc->m_pCurrentBrush->BrushBegin(source, target); break;
+			case LEFT_MOUSE_DOWN:
+
+				m_pDoc->recordPainting();
+				m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
+				break;
 			case LEFT_MOUSE_DRAG: m_pDoc->m_pCurrentBrush->BrushMove(source, target); break;
 			case LEFT_MOUSE_UP:
 				m_pDoc->m_pCurrentBrush->BrushEnd(source, target);
-
 				SaveCurrentContent();
 				RestoreContent();
 				break;
@@ -187,13 +191,19 @@ void PaintView::refresh() { redraw(); }
 
 void PaintView::resizeWindow(int width, int height) { resize(x(), y(), width, height); }
 
+
 void PaintView::SaveCurrentContent() {
 	// Tell openGL to read from the front buffer when capturing
 	// out paint strokes
+
+
 	glReadBuffer(GL_FRONT);
 
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
+
 	glPixelStorei(GL_PACK_ROW_LENGTH, m_pDoc->m_nPaintWidth);
+	// undo_head = (undo_head + 1) % UNDO_LEVEL;
+	// std::cout << "1";
 
 	glReadPixels(0, m_nWindowHeight - m_nDrawHeight, m_nDrawWidth, m_nDrawHeight, GL_RGB, GL_UNSIGNED_BYTE,
 				 m_pPaintBitstart);
@@ -201,13 +211,13 @@ void PaintView::SaveCurrentContent() {
 
 void PaintView::RestoreContent() {
 	glDrawBuffer(GL_BACK);
-
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glRasterPos2i(0, m_nWindowHeight - m_nDrawHeight);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, m_pDoc->m_nPaintWidth);
-	glDrawPixels(m_nDrawWidth, m_nDrawHeight, GL_RGB, GL_UNSIGNED_BYTE, m_pPaintBitstart);
 
-	//	glDrawBuffer(GL_FRONT);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, m_pDoc->m_nPaintWidth);
+
+	glDrawPixels(m_nDrawWidth, m_nDrawHeight, GL_RGB, GL_UNSIGNED_BYTE, m_pPaintBitstart);
 }

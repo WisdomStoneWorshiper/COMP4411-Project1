@@ -86,6 +86,8 @@ private:
 	static void cb_clear_canvas(Fl_Menu_* o, void* v);
 	static void cb_swap_content(Fl_Menu_* o, void* v);
 
+	static void cb_undo(Fl_Menu_* o, void* v);
+
 	static void cb_exit(Fl_Menu_* o, void* v);
 	static void cb_about(Fl_Menu_* o, void* v);
 	static void cb_brushChoice(Fl_Widget* o, void* v);

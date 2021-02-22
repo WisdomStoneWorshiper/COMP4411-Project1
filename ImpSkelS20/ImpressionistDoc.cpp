@@ -36,6 +36,10 @@ ImpressionistDoc::ImpressionistDoc() {
 	m_nWidth = -1;
 	m_ucBitmap = NULL;
 	m_ucPainting = NULL;
+	undo_header = 0;
+	for (int i = 0; i < UNDO_LEVEL; ++i) {
+		m_last_ucPainting[i] = nullptr;
+	}
 	m_pStroke = 0;
 
 	// create one instance of each brush
@@ -114,7 +118,10 @@ int ImpressionistDoc::loadImage(char* iname) {
 	// allocate space for draw view
 	m_ucPainting = new unsigned char[width * height * 3];
 	memset(m_ucPainting, 0, width * height * 3);
-
+	// for (int i = 0; i < UNDO_LEVEL; ++i) {
+	// 	m_last_ucPainting[i] = new unsigned char[width * height * 3];
+	// 	memset(m_last_ucPainting[i], 0, width * height * 3);
+	// }
 	m_pUI->m_mainWindow->resize(m_pUI->m_mainWindow->x(), m_pUI->m_mainWindow->y(), width * 2, height + 25);
 
 	// display it on origView
@@ -158,6 +165,32 @@ int ImpressionistDoc::clearCanvas() {
 	}
 
 	return 0;
+}
+
+void ImpressionistDoc::recordPainting() {
+	if (m_last_ucPainting[undo_header] != nullptr) {
+		delete m_last_ucPainting[undo_header];
+	}
+	m_last_ucPainting[undo_header] = new unsigned char[m_nPaintWidth * m_nPaintHeight * 3];
+	memset(m_last_ucPainting[undo_header], 0, m_nPaintWidth * m_nPaintHeight * 3);
+	memcpy(m_last_ucPainting[undo_header++], m_ucPainting, m_nPaintWidth * m_nPaintHeight * 3);
+
+	if (undo_header >= UNDO_LEVEL) {
+		undo_header = 0;
+	}
+}
+
+void ImpressionistDoc::undo() {
+	--undo_header;
+	if (undo_header < 0) {
+		undo_header = UNDO_LEVEL - 1;
+	}
+	if (m_last_ucPainting[undo_header] != nullptr) {
+		memcpy(m_ucPainting, m_last_ucPainting[undo_header], m_nPaintWidth * m_nPaintHeight * 3);
+		delete m_last_ucPainting[undo_header];
+		m_last_ucPainting[undo_header] = nullptr;
+	}
+	m_pUI->m_paintView->refresh();
 }
 
 //------------------------------------------------------------------

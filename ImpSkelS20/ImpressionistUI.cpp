@@ -210,12 +210,17 @@ void ImpressionistUI::cb_clear_canvas(Fl_Menu_* o, void* v) {
 
 void ImpressionistUI::cb_swap_content(Fl_Menu_* o, void* v) {
 	ImpressionistDoc* pDoc = whoami(o)->getDocument();
-	ImpressionistUI* pUI = ((ImpressionistUI*)(o->user_data()));
+	// ImpressionistUI* pUI = ((ImpressionistUI*)(o->user_data()));
 	unsigned char* temp = pDoc->m_ucBitmap;
 	pDoc->m_ucBitmap = pDoc->m_ucPainting;
 	pDoc->m_ucPainting = temp;
-	// pUI->m_paintView->refresh();
-	// pUI->m_origView->refresh();
+}
+
+void ImpressionistUI::cb_undo(Fl_Menu_* o, void* v) {
+	ImpressionistDoc* pDoc = whoami(o)->getDocument();
+	pDoc->undo();
+	// ImpressionistUI* pUI = ((ImpressionistUI*)(o->user_data()));
+	// pUI->m_paintView->undo();
 }
 
 //------------------------------------------------------------
@@ -355,19 +360,11 @@ void ImpressionistUI::setSize(int size) {
 
 int ImpressionistUI::getLineWidth() { return m_nLineWidth; }
 
-void ImpressionistUI::setLineWidth(int lineWidth) {
-	m_nLineWidth = lineWidth;
-
-	// if (lineWidth <= 40) m_LineWidthSlider->value(m_nLineWidth);
-}
+void ImpressionistUI::setLineWidth(int lineWidth) { m_nLineWidth = lineWidth; }
 
 int ImpressionistUI::getLineAngle() { return m_nLineAngle; }
 
-void ImpressionistUI::setLineAngle(int lineAngle) {
-	m_nLineAngle = lineAngle;
-
-	// if (lineAngle <= 359) m_LineAngleSlider->value(m_nLineAngle);
-}
+void ImpressionistUI::setLineAngle(int lineAngle) { m_nLineAngle = lineAngle; }
 
 float ImpressionistUI::getAlpha() { return m_nAlpha; }
 
@@ -388,6 +385,10 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 	{"&Swap Content", FL_ALT + 'w', (Fl_Callback*)ImpressionistUI::cb_swap_content},
 
 	{"&Quit", FL_ALT + 'q', (Fl_Callback*)ImpressionistUI::cb_exit},
+	{0},
+
+	{"&Option", 0, 0, 0, FL_SUBMENU},
+	{"&Undo", FL_CTRL + 'z', (Fl_Callback*)ImpressionistUI::cb_undo},
 	{0},
 
 	{"&Help", 0, 0, 0, FL_SUBMENU},
