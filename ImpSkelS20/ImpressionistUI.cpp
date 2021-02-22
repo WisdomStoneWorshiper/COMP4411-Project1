@@ -204,7 +204,18 @@ void ImpressionistUI::cb_brushes(Fl_Menu_* o, void* v) { whoami(o)->m_brushDialo
 void ImpressionistUI::cb_clear_canvas(Fl_Menu_* o, void* v) {
 	ImpressionistDoc* pDoc = whoami(o)->getDocument();
 
+
 	pDoc->clearCanvas();
+}
+
+void ImpressionistUI::cb_swap_content(Fl_Menu_* o, void* v) {
+	ImpressionistDoc* pDoc = whoami(o)->getDocument();
+	ImpressionistUI* pUI = ((ImpressionistUI*)(o->user_data()));
+	unsigned char* temp = pDoc->m_ucBitmap;
+	pDoc->m_ucBitmap = pDoc->m_ucPainting;
+	pDoc->m_ucPainting = temp;
+	// pUI->m_paintView->refresh();
+	// pUI->m_origView->refresh();
 }
 
 //------------------------------------------------------------
@@ -374,6 +385,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 	{"&Save Image...", FL_ALT + 's', (Fl_Callback*)ImpressionistUI::cb_save_image},
 	{"&Brushes...", FL_ALT + 'b', (Fl_Callback*)ImpressionistUI::cb_brushes},
 	{"&Clear Canvas", FL_ALT + 'c', (Fl_Callback*)ImpressionistUI::cb_clear_canvas, 0, FL_MENU_DIVIDER},
+	{"&Swap Content", FL_ALT + 'w', (Fl_Callback*)ImpressionistUI::cb_swap_content},
 
 	{"&Quit", FL_ALT + 'q', (Fl_Callback*)ImpressionistUI::cb_exit},
 	{0},
