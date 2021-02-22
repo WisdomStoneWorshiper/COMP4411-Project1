@@ -77,15 +77,6 @@ void PaintView::draw() {
 	m_nEndCol = m_nStartCol + drawWidth;
 
 	// RestoreContent();
-	Point source(coord.x + m_nStartCol, m_nEndRow - coord.y);
-	Point target(coord.x, m_nWindowHeight - coord.y);
-	glPointSize(3);
-	glBegin(GL_POINTS);
-	GLubyte color[3];
-	color[0] = 255;
-	glColor3ubv(color);
-	glVertex2d(last_point.x, last_point.y);
-	glEnd();
 
 	if (m_pDoc->m_ucPainting && !isAnEvent) {
 		RestoreContent();
@@ -96,6 +87,8 @@ void PaintView::draw() {
 		// Clear it after processing.
 		isAnEvent = 0;
 
+		Point source(coord.x + m_nStartCol, m_nEndRow - coord.y);
+		Point target(coord.x, m_nWindowHeight - coord.y);
 
 		// glEnable(GL_BLEND);
 		// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -111,13 +104,14 @@ void PaintView::draw() {
 				RestoreContent();
 				break;
 			case RIGHT_MOUSE_DOWN:
-				SaveCurrentContent();
+				// SaveCurrentContent();
 				m_pDoc->m_pDirectionLine->BrushBegin(source, target);
 				break;
 
 			case RIGHT_MOUSE_DRAG:
-				RestoreContent();
+
 				m_pDoc->m_pDirectionLine->BrushMove(source, target);
+				RestoreContent();
 				break;
 
 			case RIGHT_MOUSE_UP:
@@ -176,13 +170,13 @@ int PaintView::handle(int event) {
 		case FL_MOVE:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
-			last_point = coord;
-			redraw();
+			// last_point = coord;
+			// redraw();
 
 			break;
 		default: return 0; break;
 	}
-
+	m_pDoc->m_pUI->m_origView->cursorMove(coord.x, coord.y);
 	return 1;
 }
 

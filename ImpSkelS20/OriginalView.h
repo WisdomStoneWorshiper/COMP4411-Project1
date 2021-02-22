@@ -7,6 +7,8 @@
 #ifndef ORIGINALVIEW_H
 #define ORIGINALVIEW_H
 
+#include "ImpBrush.h"
+
 #include <FL/Fl.H>
 #include <FL/Fl_Gl_Window.H>
 #include <FL/gl.h>
@@ -14,12 +16,10 @@
 #include <OpenGL/glu.h>
 #include <stdlib.h>
 
-#include "ImpBrush.h"
-
 class ImpressionistDoc;
 
 class OriginalView : public Fl_Gl_Window {
-   public:
+public:
 	OriginalView(int x, int y, int w, int h, const char* l);
 
 	void draw();
@@ -27,10 +27,14 @@ class OriginalView : public Fl_Gl_Window {
 
 	void resizeWindow(int width, int height);
 
+	void cursorMove(int x, int y);
+
 	ImpressionistDoc* m_pDoc;
 
-   private:
+private:
 	int m_nWindowWidth, m_nWindowHeight;
+
+	int cursor_x, cursor_y;
 };
 
 #endif

@@ -10,13 +10,16 @@
 #include "ImpressionistDoc.h"
 
 #ifndef WIN32
-#define min(a, b) (((a) < (b)) ? (a) : (b))
+	#define min(a, b) (((a) < (b)) ? (a) : (b))
 #endif
 
 OriginalView::OriginalView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x, y, w, h, l) {
 	m_nWindowWidth = w;
 	m_nWindowHeight = h;
+	cursor_x = 0;
+	cursor_y = 0;
 }
+#include <iostream>
 
 void OriginalView::draw() {
 	if (!valid()) {
@@ -45,14 +48,15 @@ void OriginalView::draw() {
 		GLvoid* bitstart;
 
 		// we are not using a scrollable window, so ignore it
-		Point scrollpos;  // = GetScrollPosition();
+		Point scrollpos; // = GetScrollPosition();
 		scrollpos.x = scrollpos.y = 0;
 
 		drawWidth = min(m_nWindowWidth, m_pDoc->m_nWidth);
 		drawHeight = min(m_nWindowHeight, m_pDoc->m_nHeight);
 
 		int startrow = m_pDoc->m_nHeight - (scrollpos.y + drawHeight);
-		if (startrow < 0) startrow = 0;
+		if (startrow < 0)
+			startrow = 0;
 
 		bitstart = m_pDoc->m_ucBitmap + 3 * ((m_pDoc->m_nWidth * startrow) + scrollpos.x);
 
@@ -64,7 +68,26 @@ void OriginalView::draw() {
 		glDrawPixels(drawWidth, drawHeight, GL_RGB, GL_UNSIGNED_BYTE, bitstart);
 	}
 
+	glDrawBuffer(GL_FRONT_AND_BACK);
+
+	glBegin(GL_POINTS);
+	GLubyte color[3];
+	color[0] = 255;
+
+	glColor3ubv(color);
+
+	glVertex2d(cursor_x, cursor_y);
+	glEnd();
+	std::cout << "yo";
+
 	glFlush();
+}
+
+void OriginalView::cursorMove(int x, int y) {
+	// glDrawBuffer(GL_BACK);
+	cursor_x = x;
+	cursor_y = y;
+	redraw();
 }
 
 void OriginalView::refresh() { redraw(); }
