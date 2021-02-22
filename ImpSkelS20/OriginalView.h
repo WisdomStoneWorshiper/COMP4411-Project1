@@ -7,19 +7,24 @@
 #ifndef ORIGINALVIEW_H
 #define ORIGINALVIEW_H
 
+#include "ImpBrush.h"
+
 #include <FL/Fl.H>
 #include <FL/Fl_Gl_Window.H>
 #include <FL/gl.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+#else
+	#include <OpenGL/gl.h>
+	#include <OpenGL/glu.h>
+#endif
 #include <stdlib.h>
-
-#include "ImpBrush.h"
 
 class ImpressionistDoc;
 
 class OriginalView : public Fl_Gl_Window {
-   public:
+public:
 	OriginalView(int x, int y, int w, int h, const char* l);
 
 	void draw();
@@ -29,7 +34,7 @@ class OriginalView : public Fl_Gl_Window {
 
 	ImpressionistDoc* m_pDoc;
 
-   private:
+private:
 	int m_nWindowWidth, m_nWindowHeight;
 };
 
