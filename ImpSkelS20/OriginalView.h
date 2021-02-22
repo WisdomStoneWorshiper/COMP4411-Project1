@@ -12,8 +12,13 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Gl_Window.H>
 #include <FL/gl.h>
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+#else
+	#include <OpenGL/gl.h>
+	#include <OpenGL/glu.h>
+#endif
 #include <stdlib.h>
 
 class ImpressionistDoc;
