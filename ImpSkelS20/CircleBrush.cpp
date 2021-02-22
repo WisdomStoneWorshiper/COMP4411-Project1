@@ -37,14 +37,22 @@ void CircleBrush::BrushMove(const Point source, const Point target) {
 	glBegin(GL_POLYGON);
 	SetColor(source);
 	for (double i = 0; i < 2 * M_PI; i += M_PI / RESOLUTION) {
-		glVertex2d((cos(i) * radius) + target.x, (sin(i) * radius) + target.y);
+		Point t_target = target;
+		t_target.x += cos(i) * radius;
+		t_target.y += sin(i) * radius;
+		ClipBrushStroke(source, t_target);
+		// glVertex2d((cos(i) * radius) + target.x, (sin(i) * radius) + target.y);
 	}
 
 	glEnd();
 }
 
 void CircleBrush::ClipBrushStroke(const Point source, const Point target) {
-	// do nothing so far
+	ImpressionistDoc* pDoc = GetDocument();
+	if (target.x >= 0 && target.y >= 0 && pDoc->m_pUI->m_paintView->get_m_nDrawWidth() >= target.x
+		&& pDoc->m_pUI->m_paintView->get_m_nDrawHeight() >= target.y) {
+		glVertex2d(target.x, target.y);
+	}
 }
 
 void CircleBrush::BrushEnd(const Point source, const Point target) {

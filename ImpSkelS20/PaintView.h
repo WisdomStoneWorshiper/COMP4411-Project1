@@ -33,6 +33,10 @@ public:
 
 	void RestoreContent();
 
+	int get_m_nDrawWidth();
+
+	int get_m_nDrawHeight();
+
 	ImpressionistDoc* m_pDoc;
 
 private:

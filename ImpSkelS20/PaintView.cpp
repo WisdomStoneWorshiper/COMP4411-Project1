@@ -32,7 +32,9 @@ PaintView::PaintView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x
 	m_nWindowHeight = h;
 }
 
-static Point last_point;
+int PaintView::get_m_nDrawWidth() { return m_nDrawWidth; }
+
+int PaintView::get_m_nDrawHeight() { return m_nDrawHeight; }
 
 void PaintView::draw() {
 #ifndef MESA
@@ -137,7 +139,7 @@ int PaintView::handle(int event) {
 		case FL_PUSH:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
-			last_point = coord;
+
 			if (Fl::event_button() > 1)
 				eventToDo = RIGHT_MOUSE_DOWN;
 			else
@@ -148,7 +150,7 @@ int PaintView::handle(int event) {
 		case FL_DRAG:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
-			last_point = coord;
+
 			if (Fl::event_button() > 1)
 				eventToDo = RIGHT_MOUSE_DRAG;
 			else
@@ -159,7 +161,7 @@ int PaintView::handle(int event) {
 		case FL_RELEASE:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
-			last_point = coord;
+
 			if (Fl::event_button() > 1)
 				eventToDo = RIGHT_MOUSE_UP;
 			else

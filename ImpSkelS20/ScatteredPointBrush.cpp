@@ -42,14 +42,25 @@ void ScatteredPointBrush::BrushMove(const Point source, const Point target) {
 		Point s_source = source;
 		s_source.x += x_offset;
 		s_source.y += y_offset;
-		SetColor(s_source);
-		glVertex2d(target.x + x_offset, target.y + y_offset);
+		Point t_target = target;
+		t_target.x += x_offset;
+		t_target.y += y_offset;
+		ClipBrushStroke(s_source, t_target);
+		// SetColor(s_source);
+		// glVertex2d(target.x + x_offset, target.y + y_offset);
 	}
 
 	glEnd();
 }
 
-void ScatteredPointBrush::ClipBrushStroke(const Point source, const Point target) {}
+void ScatteredPointBrush::ClipBrushStroke(const Point source, const Point target) {
+	ImpressionistDoc* pDoc = GetDocument();
+	if (target.x >= 0 && target.y >= 0 && pDoc->m_pUI->m_paintView->get_m_nDrawWidth() >= target.x
+		&& pDoc->m_pUI->m_paintView->get_m_nDrawHeight() >= target.y) {
+		SetColor(source);
+		glVertex2d(target.x, target.y);
+	}
+}
 
 
 void ScatteredPointBrush::BrushEnd(const Point source, const Point target) {
