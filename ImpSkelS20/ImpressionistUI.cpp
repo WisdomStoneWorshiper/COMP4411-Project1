@@ -204,7 +204,6 @@ void ImpressionistUI::cb_brushes(Fl_Menu_* o, void* v) { whoami(o)->m_brushDialo
 void ImpressionistUI::cb_clear_canvas(Fl_Menu_* o, void* v) {
 	ImpressionistDoc* pDoc = whoami(o)->getDocument();
 
-
 	pDoc->clearCanvas();
 }
 
@@ -405,6 +404,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{"Scattered Points", FL_ALT + 'q', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_SCATTERED_POINTS},
 	{"Scattered Lines", FL_ALT + 'm', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_SCATTERED_LINES},
 	{"Scattered Circles", FL_ALT + 'd', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_SCATTERED_CIRCLES},
+	{"Filter Points", FL_ALT + 'f', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_FILTER_POINTS},
 	{0}};
 
 Fl_Menu_Item ImpressionistUI::strokeDirectionMenu[NUM_STROKE_TYPE + 1] = {

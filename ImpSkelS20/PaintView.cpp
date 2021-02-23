@@ -99,7 +99,6 @@ void PaintView::draw() {
 		// This is the event handler
 		switch (eventToDo) {
 			case LEFT_MOUSE_DOWN:
-
 				m_pDoc->recordPainting();
 				m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
 				break;
