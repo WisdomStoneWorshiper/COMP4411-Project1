@@ -45,7 +45,10 @@ public:
 	Fl_Slider* m_redSlider;
 	Fl_Slider* m_blueSlider;
 	Fl_Slider* m_greenSlider;
+	Fl_Slider* m_AutoSpacingSlider;
+
 	Fl_Button* m_ClearCanvasButton;
+	Fl_Button* m_AutoDrawButton;
 
 	// Member functions
 	void setDocument(ImpressionistDoc* doc);
@@ -67,6 +70,7 @@ public:
 	float getRedScale();
 	float getBlueScale();
 	float getGreenScale();
+	int getAutoSpacing();
 
 
 private:
@@ -80,6 +84,8 @@ private:
 	float m_nRedScale;
 	float m_nBlueScale;
 	float m_nGreenScale;
+
+	int m_nAutoSpacing;
 
 	// Static class members
 	static Fl_Menu_Item menuitems[];
@@ -103,6 +109,7 @@ private:
 	static void cb_about(Fl_Menu_* o, void* v);
 	static void cb_brushChoice(Fl_Widget* o, void* v);
 	static void cb_clear_canvas_button(Fl_Widget* o, void* v);
+	static void cb_auto_draw_button(Fl_Widget* o, void* v);
 	static void cb_sizeSlides(Fl_Widget* o, void* v);
 	static void cb_LineWidthSlides(Fl_Widget* o, void* v);
 	static void cb_LineAngleSlides(Fl_Widget* o, void* v);
@@ -110,6 +117,7 @@ private:
 	static void cb_RedSlides(Fl_Widget* o, void* v);
 	static void cb_BlueSlides(Fl_Widget* o, void* v);
 	static void cb_GreenSlides(Fl_Widget* o, void* v);
+	static void cb_SpacingSlides(Fl_Widget* o, void* v);
 	static void cb_strokeChoice(Fl_Widget* o, void* v);
 };
 

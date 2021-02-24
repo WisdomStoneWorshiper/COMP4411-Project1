@@ -26,7 +26,7 @@ void FilterBrush::BrushBegin(const Point source, const Point target) {
 void FilterBrush::BrushMove(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
-
+	size = pDoc->getSize();
 	if (pDoc == NULL) {
 		printf("FilterBrush::BrushMove  document is NULL\n");
 		return;

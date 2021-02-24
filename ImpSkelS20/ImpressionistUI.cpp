@@ -223,9 +223,7 @@ void ImpressionistUI::cb_undo(Fl_Menu_* o, void* v) {
 }
 
 // Color callback function
-void ImpressionistUI::cb_color(Fl_Menu_* o, void* v) {
-	whoami(o)->m_colorDialog->show();
-}
+void ImpressionistUI::cb_color(Fl_Menu_* o, void* v) { whoami(o)->m_colorDialog->show(); }
 
 //------------------------------------------------------------
 // Causes the Impressionist program to exit
@@ -290,6 +288,13 @@ void ImpressionistUI::cb_clear_canvas_button(Fl_Widget* o, void* v) {
 	pDoc->clearCanvas();
 }
 
+void ImpressionistUI::cb_auto_draw_button(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+
+	pDoc->m_pUI->m_paintView->at_draw();
+	// pDoc->auto_draw();
+}
+
 //-----------------------------------------------------------
 // Updates the brush size to use from the value of the size
 // slider
@@ -311,6 +316,7 @@ void ImpressionistUI::cb_AlphaSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nAlpha = float(((Fl_Slider*)o)->value());
 }
 
+
 void ImpressionistUI::cb_RedSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nRedScale = float(((Fl_Slider*)o)->value());
 }
@@ -321,6 +327,10 @@ void ImpressionistUI::cb_BlueSlides(Fl_Widget* o, void* v) {
 
 void ImpressionistUI::cb_GreenSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nGreenScale = float(((Fl_Slider*)o)->value());
+}
+
+void ImpressionistUI::cb_SpacingSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nAutoSpacing = float(((Fl_Slider*)o)->value());
 }
 
 //---------------------------------- per instance functions --------------------------------------
@@ -387,6 +397,7 @@ float ImpressionistUI::getAlpha() { return m_nAlpha; }
 float ImpressionistUI::getRedScale() { return m_nRedScale; }
 float ImpressionistUI::getBlueScale() { return m_nBlueScale; }
 float ImpressionistUI::getGreenScale() { return m_nGreenScale; }
+int ImpressionistUI::getAutoSpacing() { return m_nAutoSpacing; }
 
 void ImpressionistUI::setAlpha(float alpha) {
 	m_nAlpha = alpha;
@@ -473,6 +484,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_nRedScale = 1.0;
 	m_nBlueScale = 1.0;
 	m_nGreenScale = 1.0;
+	m_nAutoSpacing = 4;
 	// brush dialog definition
 	m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
 	// Add a brush type choice to the dialog
@@ -541,6 +553,22 @@ ImpressionistUI::ImpressionistUI() {
 	m_AlphaSlider->value(m_nAlpha);
 	m_AlphaSlider->align(FL_ALIGN_RIGHT);
 	m_AlphaSlider->callback(cb_AlphaSlides);
+
+	m_AutoSpacingSlider = new Fl_Value_Slider(10, 160, 150, 20, "Spacing");
+	m_AutoSpacingSlider->user_data((void*)(this)); // record self to be used by static callback functions
+	m_AutoSpacingSlider->type(FL_HOR_NICE_SLIDER);
+	m_AutoSpacingSlider->labelfont(FL_COURIER);
+	m_AutoSpacingSlider->labelsize(12);
+	m_AutoSpacingSlider->minimum(1);
+	m_AutoSpacingSlider->maximum(40);
+	m_AutoSpacingSlider->step(1);
+	m_AutoSpacingSlider->value(m_nAutoSpacing);
+	m_AutoSpacingSlider->align(FL_ALIGN_RIGHT);
+	m_AutoSpacingSlider->callback(cb_SpacingSlides);
+
+	m_AutoDrawButton = new Fl_Button(300, 160, 70, 25, "&Auto Draw");
+	m_AutoDrawButton->user_data((void*)(this));
+	m_AutoDrawButton->callback(cb_auto_draw_button);
 
 	m_brushDialog->end();
 

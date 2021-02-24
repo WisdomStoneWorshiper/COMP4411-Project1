@@ -32,7 +32,7 @@ void ScatteredCircleBrush::BrushBegin(const Point source, const Point target) {
 void ScatteredCircleBrush::BrushMove(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
-
+	radius = pDoc->getSize();
 	if (pDoc == NULL) {
 		printf("ScatteredCircleBrush::BrushMove  document is NULL\n");
 		return;

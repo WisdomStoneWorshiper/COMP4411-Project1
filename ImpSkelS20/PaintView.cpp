@@ -19,6 +19,7 @@
 #define RIGHT_MOUSE_DOWN 4
 #define RIGHT_MOUSE_DRAG 5
 #define RIGHT_MOUSE_UP	 6
+#define AT_DRAW			 7
 
 #ifndef WIN32
 	#define min(a, b) (((a) < (b)) ? (a) : (b))
@@ -37,6 +38,14 @@ PaintView::PaintView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x
 int PaintView::get_m_nDrawWidth() { return m_nDrawWidth; }
 
 int PaintView::get_m_nDrawHeight() { return m_nDrawHeight; }
+
+int PaintView::get_m_nEndCol() { return m_nEndCol; }
+
+int PaintView::get_m_nEndRow() { return m_nEndRow; }
+
+int PaintView::get_m_nWindowHeight() { return m_nWindowHeight; }
+
+extern float frand();
 
 void PaintView::draw() {
 #ifndef MESA
@@ -85,7 +94,7 @@ void PaintView::draw() {
 		RestoreContent();
 	}
 
-
+	// std::cout << "e:" << isAnEvent;
 	if (m_pDoc->m_ucPainting && isAnEvent) {
 		// Clear it after processing.
 		isAnEvent = 0;
@@ -93,16 +102,22 @@ void PaintView::draw() {
 		Point source(coord.x + m_nStartCol, m_nEndRow - coord.y);
 		Point target(coord.x, m_nWindowHeight - coord.y);
 
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// This is the event handler
 		switch (eventToDo) {
 			case LEFT_MOUSE_DOWN:
+				// std::cout << "sx:" << source.x << "sy:" << source.y << ";"
+				// 		  << "tx:" << target.x << "ty:" << target.y << ";";
 				m_pDoc->recordPainting();
 				m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
 				break;
-			case LEFT_MOUSE_DRAG: m_pDoc->m_pCurrentBrush->BrushMove(source, target); break;
+			case LEFT_MOUSE_DRAG:
+				// std::cout << "fk";
+				m_pDoc->m_pCurrentBrush->BrushMove(source, target);
+				break;
 			case LEFT_MOUSE_UP:
 				m_pDoc->m_pCurrentBrush->BrushEnd(source, target);
 				SaveCurrentContent();
@@ -125,6 +140,23 @@ void PaintView::draw() {
 				// RestoreContent();
 				break;
 
+			case AT_DRAW:
+				coord.x = 0;
+				coord.y = 0;
+				source = Point(coord.x + m_nStartCol, m_nEndRow - coord.y);
+				target = Point(coord.x, m_nWindowHeight - coord.y);
+				m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
+				for (; coord.x <= m_nWindowWidth; coord.x += m_pDoc->m_pUI->getAutoSpacing()) {
+					for (coord.y = 0; coord.y <= m_nWindowHeight; coord.y += m_pDoc->m_pUI->getAutoSpacing()) {
+						m_pDoc->m_pUI->setSize(frand() * 39 + 1);
+						source = Point(coord.x + m_nStartCol, m_nEndRow - coord.y);
+						target = Point(coord.x, m_nWindowHeight - coord.y);
+						m_pDoc->m_pCurrentBrush->BrushMove(source, target);
+					}
+				}
+				SaveCurrentContent();
+				RestoreContent();
+				break;
 			default: printf("Unknown event!!\n"); break;
 		}
 	}
@@ -143,6 +175,8 @@ int PaintView::handle(int event) {
 		case FL_PUSH:
 			coord.x = Fl::event_x();
 			coord.y = Fl::event_y();
+			// std::cout << "x:" << coord.x << " y:" << coord.y << ";";
+			// std::cout << "mx:" << m_nWindowWidth << " my:" << m_nWindowHeight << ";";
 
 			if (Fl::event_button() > 1)
 				eventToDo = RIGHT_MOUSE_DOWN;
@@ -184,6 +218,12 @@ int PaintView::handle(int event) {
 	}
 	m_pDoc->m_pUI->m_origView->cursorMove(coord);
 	return 1;
+}
+
+void PaintView::at_draw() {
+	eventToDo = AT_DRAW;
+	isAnEvent = 1;
+	redraw();
 }
 
 void PaintView::refresh() { redraw(); }

@@ -196,6 +196,7 @@ void ImpressionistDoc::undo() {
 	m_pUI->m_paintView->refresh();
 }
 
+
 //------------------------------------------------------------------
 // Get the color of the pixel in the original image at coord x and y
 //------------------------------------------------------------------
