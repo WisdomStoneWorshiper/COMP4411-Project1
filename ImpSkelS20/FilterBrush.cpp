@@ -18,7 +18,7 @@ void FilterBrush::BrushBegin(const Point source, const Point target) {
 
 	size = pDoc->getSize();
 
-	glPointSize((float)(size * 2 - 1));
+	glPointSize(1);
 
 	BrushMove(source, target);
 }
@@ -36,6 +36,25 @@ void FilterBrush::BrushMove(const Point source, const Point target) {
 	int rgb[3] = {0};
 	for (int i = -(size - 1); i < size; ++i) {
 		for (int j = -(size - 1); j < size; ++j) {
+			Point temp_s = Point(source.x + i, source.y + j);
+			if (temp_s.x < 0 || temp_s.x > dlg->m_paintView->get_m_nDrawWidth() || temp_s.y < 0
+				|| temp_s.y > dlg->m_paintView->get_m_nDrawHeight()) {
+				continue;
+			} else {
+				mean_filter_applier(temp_s);
+				glVertex2d(target.x + i, target.y + j);
+			}
+		}
+	}
+
+	glEnd();
+}
+
+void FilterBrush::mean_filter_applier(const Point source) {
+	ImpressionistUI* dlg = GetDocument()->m_pUI;
+	int rgb[3] = {0};
+	for (int i = -(FILTER_SIZE - 1) / 2; i <= (FILTER_SIZE - 1) / 2; ++i) {
+		for (int j = -(FILTER_SIZE - 1) / 2; j <= (FILTER_SIZE - 1) / 2; ++j) {
 			Point temp_s = source;
 			if (i < 0 || i > dlg->m_paintView->get_m_nDrawWidth()) {
 				temp_s.x += -1 * i;
@@ -51,30 +70,15 @@ void FilterBrush::BrushMove(const Point source, const Point target) {
 			for (int k = 0; k < 3; ++k) {
 				rgb[k] += temp_color[k];
 			}
-			// if (i == 0 && j == 0) {
-			// 	for (int k = 0; k < 3; ++k) {
-			// 		rgb[k] += temp_color[k];
-			// 	}
-			// } else {
-			// 	for (int k = 0; k < 3; ++k) {
-			// 		rgb[k] -= temp_color[k] / ((size * 2 - 1) * (size * 2 - 1));
-			// 	}
-			// }
 		}
 	}
 	for (int k = 0; k < 3; ++k) {
-		rgb[k] /= ((size * 2 - 1) * (size * 2 - 1));
+		rgb[k] /= FILTER_SIZE * FILTER_SIZE;
 	}
-	// std::cout << rgb[0] << " " << rgb[1] << " " << rgb[2] << ";";
+
 	GLubyte color[3] = {(GLubyte)rgb[0], (GLubyte)rgb[1], (GLubyte)rgb[2]};
 
-	// glColor4ubv(color);
-
 	glColor3ubv(color);
-
-	glVertex2d(target.x, target.y);
-
-	glEnd();
 }
 
 void FilterBrush::getColor(const Point source) {

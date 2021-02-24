@@ -21,6 +21,8 @@ public:
 	void getColor(const Point source);
 
 private:
+	const int FILTER_SIZE = 21;
+	void mean_filter_applier(const Point target);
 	GLubyte temp_color[3];
 	int size;
 };
