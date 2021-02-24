@@ -28,7 +28,7 @@ void CircleBrush::BrushBegin(const Point source, const Point target) {
 void CircleBrush::BrushMove(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
-
+	radius = pDoc->getSize();
 	if (pDoc == NULL) {
 		printf("CircleBrush::BrushMove  document is NULL\n");
 		return;

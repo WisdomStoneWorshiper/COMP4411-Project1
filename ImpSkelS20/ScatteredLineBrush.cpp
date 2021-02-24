@@ -34,7 +34,8 @@ const int RAN_RANGE = 2;
 void ScatteredLineBrush::BrushMove(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
-
+	ran_size = pDoc->getSize();
+	line_size = pDoc->getSize();
 	if (pDoc == NULL) {
 		printf("ScatteredLineBrush::BrushMove  document is NULL\n");
 		return;

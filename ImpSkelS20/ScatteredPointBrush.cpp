@@ -28,7 +28,7 @@ void ScatteredPointBrush::BrushBegin(const Point source, const Point target) {
 void ScatteredPointBrush::BrushMove(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
 	ImpressionistUI* dlg = pDoc->m_pUI;
-
+	brush_range = pDoc->getSize();
 	if (pDoc == NULL) {
 		printf("ScatteredPointBrush::BrushMove  document is NULL\n");
 		return;

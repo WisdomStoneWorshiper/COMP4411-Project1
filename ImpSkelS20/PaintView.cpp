@@ -45,6 +45,8 @@ int PaintView::get_m_nEndRow() { return m_nEndRow; }
 
 int PaintView::get_m_nWindowHeight() { return m_nWindowHeight; }
 
+extern float frand();
+
 void PaintView::draw() {
 #ifndef MESA
 	// To avoid flicker on some machines.
@@ -146,6 +148,7 @@ void PaintView::draw() {
 				m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
 				for (; coord.x <= m_nWindowWidth; coord.x += m_pDoc->m_pUI->getAutoSpacing()) {
 					for (coord.y = 0; coord.y <= m_nWindowHeight; coord.y += m_pDoc->m_pUI->getAutoSpacing()) {
+						m_pDoc->m_pUI->setSize(frand() * 39 + 1);
 						source = Point(coord.x + m_nStartCol, m_nEndRow - coord.y);
 						target = Point(coord.x, m_nWindowHeight - coord.y);
 						m_pDoc->m_pCurrentBrush->BrushMove(source, target);
