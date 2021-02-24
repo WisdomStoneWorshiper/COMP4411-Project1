@@ -544,9 +544,9 @@ ImpressionistUI::ImpressionistUI() {
 
 	m_brushDialog->end();
 
-	m_colorDialog = new Fl_Window(400, 325, "Color Dialog");
+	m_colorDialog = new Fl_Window(375, 200, "Color Dialog");
 
-	m_redSlider = new Fl_Value_Slider(10, 140, 300, 20, "Red");
+	m_redSlider = new Fl_Value_Slider(10, 40, 300, 20, "Red");
 	m_redSlider->user_data((void*)(this)); // record self to be used by static callback functions
 	m_redSlider->type(FL_HOR_NICE_SLIDER);
 	m_redSlider->labelfont(FL_COURIER);
@@ -558,7 +558,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_redSlider->align(FL_ALIGN_RIGHT);
 	m_redSlider->callback(cb_RedSlides);
 
-	m_greenSlider = new Fl_Value_Slider(10, 140, 300, 20, "Green");
+	m_greenSlider = new Fl_Value_Slider(10, 80, 300, 20, "Green");
 	m_greenSlider->user_data((void*)(this)); // record self to be used by static callback functions
 	m_greenSlider->type(FL_HOR_NICE_SLIDER);
 	m_greenSlider->labelfont(FL_COURIER);
@@ -570,7 +570,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_greenSlider->align(FL_ALIGN_RIGHT);
 	m_greenSlider->callback(cb_GreenSlides);
 
-	m_blueSlider = new Fl_Value_Slider(10, 140, 300, 20, "Blue");
+	m_blueSlider = new Fl_Value_Slider(10, 120, 300, 20, "Blue");
 	m_blueSlider->user_data((void*)(this)); // record self to be used by static callback functions
 	m_blueSlider->type(FL_HOR_NICE_SLIDER);
 	m_blueSlider->labelfont(FL_COURIER);
