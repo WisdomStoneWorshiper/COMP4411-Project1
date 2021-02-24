@@ -566,9 +566,13 @@ ImpressionistUI::ImpressionistUI() {
 	m_AutoSpacingSlider->align(FL_ALIGN_RIGHT);
 	m_AutoSpacingSlider->callback(cb_SpacingSlides);
 
-	m_AutoDrawButton = new Fl_Button(300, 160, 70, 25, "&Auto Draw");
+	m_AutoDrawButton = new Fl_Button(300, 160, 70, 20, "&Auto Draw");
 	m_AutoDrawButton->user_data((void*)(this));
 	m_AutoDrawButton->callback(cb_auto_draw_button);
+
+	m_KernalFilter = new Fl_Input(90, 180, 150, 50, "&Kernel Filter");
+	m_KernalFilter->user_data((void*)(this));
+
 
 	m_brushDialog->end();
 
@@ -609,6 +613,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_blueSlider->value(m_nBlueScale);
 	m_blueSlider->align(FL_ALIGN_RIGHT);
 	m_blueSlider->callback(cb_BlueSlides);
+
 
 	m_colorDialog->end();
 }

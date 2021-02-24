@@ -11,7 +11,12 @@
 #include "ImpressionistDoc.h"
 #include "ImpressionistUI.h"
 
+#include <algorithm>
+#include <chrono>
 #include <iostream>
+#include <random>
+#include <utility>
+#include <vector>
 
 #define LEFT_MOUSE_DOWN	 1
 #define LEFT_MOUSE_DRAG	 2
@@ -101,7 +106,8 @@ void PaintView::draw() {
 
 		Point source(coord.x + m_nStartCol, m_nEndRow - coord.y);
 		Point target(coord.x, m_nWindowHeight - coord.y);
-
+		std::vector<std::pair<Point, Point>> draw_point_list;
+		unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -146,14 +152,26 @@ void PaintView::draw() {
 				source = Point(coord.x + m_nStartCol, m_nEndRow - coord.y);
 				target = Point(coord.x, m_nWindowHeight - coord.y);
 				m_pDoc->m_pCurrentBrush->BrushBegin(source, target);
+
 				for (; coord.x <= m_nWindowWidth; coord.x += m_pDoc->m_pUI->getAutoSpacing()) {
 					for (coord.y = 0; coord.y <= m_nWindowHeight; coord.y += m_pDoc->m_pUI->getAutoSpacing()) {
-						m_pDoc->m_pUI->setSize(frand() * 39 + 1);
+						// m_pDoc->m_pUI->setSize(frand() * 39 + 1);
 						source = Point(coord.x + m_nStartCol, m_nEndRow - coord.y);
 						target = Point(coord.x, m_nWindowHeight - coord.y);
-						m_pDoc->m_pCurrentBrush->BrushMove(source, target);
+						// m_pDoc->m_pCurrentBrush->BrushMove(source, target);
+						std::pair<Point, Point> temp(source, target);
+						draw_point_list.push_back(temp);
 					}
 				}
+
+
+				shuffle(draw_point_list.begin(), draw_point_list.end(), std::default_random_engine(seed));
+				// random_shuffle(draw_point_list.begin(), draw_point_list.end());
+				for (auto& p : draw_point_list) {
+					m_pDoc->m_pUI->setSize(frand() * 19 + 1);
+					m_pDoc->m_pCurrentBrush->BrushMove(p.first, p.second);
+				}
+
 				SaveCurrentContent();
 				RestoreContent();
 				break;

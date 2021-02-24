@@ -15,6 +15,7 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Choice.H>
+#include <FL/Fl_Input.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Value_Slider.H>
@@ -49,6 +50,8 @@ public:
 
 	Fl_Button* m_ClearCanvasButton;
 	Fl_Button* m_AutoDrawButton;
+
+	Fl_Input* m_KernalFilter;
 
 	// Member functions
 	void setDocument(ImpressionistDoc* doc);
