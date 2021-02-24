@@ -35,6 +35,7 @@ public:
 	void recordPainting();
 	void undo();
 
+
 	// Attributes
 public:
 	// Dimensions of original window.

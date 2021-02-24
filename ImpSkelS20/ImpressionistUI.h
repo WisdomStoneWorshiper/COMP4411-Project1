@@ -41,7 +41,10 @@ public:
 	Fl_Slider* m_LineWidthSlider;
 	Fl_Slider* m_LineAngleSlider;
 	Fl_Slider* m_AlphaSlider;
+	Fl_Slider* m_AutoSpacingSlider;
+
 	Fl_Button* m_ClearCanvasButton;
+	Fl_Button* m_AutoDrawButton;
 
 	// Member functions
 	void setDocument(ImpressionistDoc* doc);
@@ -60,6 +63,7 @@ public:
 	void setLineAngle(int lineAngle);
 	float getAlpha();
 	void setAlpha(float alpha);
+	int getAutoSpacing();
 
 
 private:
@@ -70,6 +74,8 @@ private:
 	int m_nLineWidth;
 	int m_nLineAngle;
 	float m_nAlpha;
+
+	int m_nAutoSpacing;
 
 	// Static class members
 	static Fl_Menu_Item menuitems[];
@@ -92,10 +98,12 @@ private:
 	static void cb_about(Fl_Menu_* o, void* v);
 	static void cb_brushChoice(Fl_Widget* o, void* v);
 	static void cb_clear_canvas_button(Fl_Widget* o, void* v);
+	static void cb_auto_draw_button(Fl_Widget* o, void* v);
 	static void cb_sizeSlides(Fl_Widget* o, void* v);
 	static void cb_LineWidthSlides(Fl_Widget* o, void* v);
 	static void cb_LineAngleSlides(Fl_Widget* o, void* v);
 	static void cb_AlphaSlides(Fl_Widget* o, void* v);
+	static void cb_SpacingSlides(Fl_Widget* o, void* v);
 	static void cb_strokeChoice(Fl_Widget* o, void* v);
 };
 
