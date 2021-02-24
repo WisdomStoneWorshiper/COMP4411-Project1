@@ -15,7 +15,7 @@ You must add the following features to the Impressionist program:
 
     - [x]  (1W) When using your program, you currently can't see what part of the original image you're painting. Extend the program so that when the cursor is in the painting window, a marker appears on the original image showing where you're painting. 
 - [x]  (1W) Sometimes it is useful to use the contents of the painting window as the original image. Add a control to swap the contents of the painting window and the contents of the original image window. 
-    - [ ]  (1B) Add controls that allow you to manipulate the color of the image. For example, you could implement independent scaling of the red, green, and blue channels. (Kinshuk: want to do)
+    - [x]  (1B) Add controls that allow you to manipulate the color of the image. For example, you could implement independent scaling of the red, green, and blue channels.
         - [x] (1B) Design a brush that selectively applies one or more filters such as blurring and sharpening. (implemented mean filter for blurring)
             - [x] (1B) Add an undo feature with at least one level of undo so that you can try a brush and decide to undo its effect on the canvas. This comes in very handy for experimenting with brush and filtering effects. 
                 - [ ] (1B) Add the ability to dissolve one image into another. (Kinshuk: want to do)
