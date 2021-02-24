@@ -34,6 +34,7 @@ public:
 
 	// for brush dialog
 	Fl_Window* m_brushDialog;
+	Fl_Window* m_colorDialog;
 	Fl_Choice* m_BrushTypeChoice;
 
 	Fl_Choice* m_StrokeDirectionChoice;
@@ -41,6 +42,9 @@ public:
 	Fl_Slider* m_LineWidthSlider;
 	Fl_Slider* m_LineAngleSlider;
 	Fl_Slider* m_AlphaSlider;
+	Fl_Slider* m_redSlider;
+	Fl_Slider* m_blueSlider;
+	Fl_Slider* m_greenSlider;
 	Fl_Button* m_ClearCanvasButton;
 
 	// Member functions
@@ -60,6 +64,9 @@ public:
 	void setLineAngle(int lineAngle);
 	float getAlpha();
 	void setAlpha(float alpha);
+	float getRedScale();
+	float getBlueScale();
+	float getGreenScale();
 
 
 private:
@@ -70,6 +77,9 @@ private:
 	int m_nLineWidth;
 	int m_nLineAngle;
 	float m_nAlpha;
+	float m_nRedScale;
+	float m_nBlueScale;
+	float m_nGreenScale;
 
 	// Static class members
 	static Fl_Menu_Item menuitems[];
@@ -87,6 +97,7 @@ private:
 	static void cb_swap_content(Fl_Menu_* o, void* v);
 
 	static void cb_undo(Fl_Menu_* o, void* v);
+	static void cb_color(Fl_Menu_* o, void* v);
 
 	static void cb_exit(Fl_Menu_* o, void* v);
 	static void cb_about(Fl_Menu_* o, void* v);
@@ -96,6 +107,9 @@ private:
 	static void cb_LineWidthSlides(Fl_Widget* o, void* v);
 	static void cb_LineAngleSlides(Fl_Widget* o, void* v);
 	static void cb_AlphaSlides(Fl_Widget* o, void* v);
+	static void cb_RedSlides(Fl_Widget* o, void* v);
+	static void cb_BlueSlides(Fl_Widget* o, void* v);
+	static void cb_GreenSlides(Fl_Widget* o, void* v);
 	static void cb_strokeChoice(Fl_Widget* o, void* v);
 };
 

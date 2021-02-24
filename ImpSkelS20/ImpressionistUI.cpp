@@ -222,6 +222,11 @@ void ImpressionistUI::cb_undo(Fl_Menu_* o, void* v) {
 	// pUI->m_paintView->undo();
 }
 
+// Color callback function
+void ImpressionistUI::cb_color(Fl_Menu_* o, void* v) {
+	whoami(o)->m_brushDialog->show();
+}
+
 //------------------------------------------------------------
 // Causes the Impressionist program to exit
 // Called by the UI when the quit menu item is chosen
@@ -306,6 +311,18 @@ void ImpressionistUI::cb_AlphaSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nAlpha = float(((Fl_Slider*)o)->value());
 }
 
+void ImpressionistUI::cb_RedSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nRedScale = float(((Fl_Slider*)o)->value());
+}
+
+void ImpressionistUI::cb_BlueSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nBlueScale = float(((Fl_Slider*)o)->value());
+}
+
+void ImpressionistUI::cb_GreenSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nGreenScale = float(((Fl_Slider*)o)->value());
+}
+
 //---------------------------------- per instance functions --------------------------------------
 
 //------------------------------------------------
@@ -367,6 +384,10 @@ void ImpressionistUI::setLineAngle(int lineAngle) { m_nLineAngle = lineAngle; }
 
 float ImpressionistUI::getAlpha() { return m_nAlpha; }
 
+float ImpressionistUI::getRedScale() { return m_nRedScale; }
+float ImpressionistUI::getBlueScale() { return m_nBlueScale; }
+float ImpressionistUI::getGreenScale() { return m_nGreenScale; }
+
 void ImpressionistUI::setAlpha(float alpha) {
 	m_nAlpha = alpha;
 
@@ -382,6 +403,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 	{"&Brushes...", FL_ALT + 'b', (Fl_Callback*)ImpressionistUI::cb_brushes},
 	{"&Clear Canvas", FL_ALT + 'c', (Fl_Callback*)ImpressionistUI::cb_clear_canvas, 0, FL_MENU_DIVIDER},
 	{"&Swap Content", FL_ALT + 'w', (Fl_Callback*)ImpressionistUI::cb_swap_content},
+	{"&Colors", FL_ALT + 'y', (Fl_Callback*)ImpressionistUI::cb_color},
 
 	{"&Quit", FL_ALT + 'q', (Fl_Callback*)ImpressionistUI::cb_exit},
 	{0},
@@ -448,6 +470,9 @@ ImpressionistUI::ImpressionistUI() {
 	m_nLineWidth = 2;
 	m_nLineAngle = 0;
 	m_nAlpha = 1.0;
+	m_nRedScale = 1.0;
+	m_nBlueScale = 1.0;
+	m_nGreenScale = 1.0;
 	// brush dialog definition
 	m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
 	// Add a brush type choice to the dialog
@@ -518,4 +543,44 @@ ImpressionistUI::ImpressionistUI() {
 	m_AlphaSlider->callback(cb_AlphaSlides);
 
 	m_brushDialog->end();
+
+	m_colorDialog = new Fl_Window(400, 325, "Color Dialog");
+
+	m_redSlider = new Fl_Value_Slider(10, 140, 300, 20, "Red");
+	m_redSlider->user_data((void*)(this)); // record self to be used by static callback functions
+	m_redSlider->type(FL_HOR_NICE_SLIDER);
+	m_redSlider->labelfont(FL_COURIER);
+	m_redSlider->labelsize(12);
+	m_redSlider->minimum(0);
+	m_redSlider->maximum(1);
+	m_redSlider->step(0.01);
+	m_redSlider->value(m_nRedScale);
+	m_redSlider->align(FL_ALIGN_RIGHT);
+	m_redSlider->callback(cb_RedSlides);
+
+	m_blueSlider = new Fl_Value_Slider(10, 140, 300, 20, "Blue");
+	m_blueSlider->user_data((void*)(this)); // record self to be used by static callback functions
+	m_blueSlider->type(FL_HOR_NICE_SLIDER);
+	m_blueSlider->labelfont(FL_COURIER);
+	m_blueSlider->labelsize(12);
+	m_blueSlider->minimum(0);
+	m_blueSlider->maximum(1);
+	m_blueSlider->step(0.01);
+	m_blueSlider->value(m_nBlueScale);
+	m_blueSlider->align(FL_ALIGN_RIGHT);
+	m_blueSlider->callback(cb_BlueSlides);
+
+	m_greenSlider = new Fl_Value_Slider(10, 140, 300, 20, "Green");
+	m_greenSlider->user_data((void*)(this)); // record self to be used by static callback functions
+	m_greenSlider->type(FL_HOR_NICE_SLIDER);
+	m_greenSlider->labelfont(FL_COURIER);
+	m_greenSlider->labelsize(12);
+	m_greenSlider->minimum(0);
+	m_greenSlider->maximum(1);
+	m_greenSlider->step(0.01);
+	m_greenSlider->value(m_nGreenScale);
+	m_greenSlider->align(FL_ALIGN_RIGHT);
+	m_greenSlider->callback(cb_GreenSlides);
+
+	m_colorDialog->end();
 }

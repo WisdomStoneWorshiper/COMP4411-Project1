@@ -36,6 +36,12 @@ void ImpBrush::SetColor(const Point source) {
 	GLubyte color[4];
 
 	memcpy(color, pDoc->GetOriginalPixel(source), 3);
+	float sR = pDoc->m_pUI->getRedScale() * color[0];
+	float sB = pDoc->m_pUI->getBlueScale() * color[1];
+	float sG = pDoc->m_pUI->getGreenScale() * color[2];
+	color[0] = sR >= 1.0 ? static_cast<GLubyte>(sR) : 1;
+	color[1] = sB >= 1.0 ? static_cast<GLubyte>(sB) : 1;
+	color[2] = sG >= 1.0 ? static_cast<GLubyte>(sG) : 1;
 	color[3] = static_cast<GLubyte>(pDoc->getAlpha() * 255.f);
 	glColor4ubv(color);
 }
