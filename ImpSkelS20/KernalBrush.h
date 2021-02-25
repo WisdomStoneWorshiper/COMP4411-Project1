@@ -24,11 +24,14 @@ public:
 	char* BrushName(void);
 	void getColor(const Point source);
 	void setKernalFilter(std::string input);
+	void set_normalize(bool input);
 
 private:
-	const int FILTER_SIZE = 21;
-	void mean_filter_applier(const Point target);
+	int filter_size;
+	bool normalize;
+	void filter_applier(const Point target);
 	GLubyte temp_color[3];
-	std::vector<int> filter;
+	std::vector<double> filter;
+	double filter_sum;
 	int size;
 };

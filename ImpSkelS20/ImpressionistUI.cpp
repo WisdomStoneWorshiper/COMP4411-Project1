@@ -309,6 +309,13 @@ void ImpressionistUI::cb_apply_filter_button(Fl_Widget* o, void* v) {
 	// pDoc->auto_draw();
 }
 
+void ImpressionistUI::cb_normalize_button(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+	static bool n = false;
+	n = !n;
+	reinterpret_cast<KernalBrush*>(ImpBrush::c_pBrushes[BRUSH_KERNAL])->set_normalize(n);
+}
+
 //-----------------------------------------------------------
 // Updates the brush size to use from the value of the size
 // slider
@@ -591,6 +598,9 @@ ImpressionistUI::ImpressionistUI() {
 	m_ApplyFilterButton = new Fl_Button(300, 180, 70, 20, "&Apply");
 	m_ApplyFilterButton->user_data((void*)(this));
 	m_ApplyFilterButton->callback(cb_apply_filter_button);
+
+	m_Normalize = new Fl_Light_Button(300, 200, 90, 20, "&Normalize");
+	m_Normalize->user_data((void*)(this));
 
 	m_brushDialog->end();
 

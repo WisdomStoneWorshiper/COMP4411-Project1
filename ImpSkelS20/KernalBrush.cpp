@@ -17,7 +17,7 @@ void KernalBrush::BrushBegin(const Point source, const Point target) {
 	ImpressionistUI* dlg = pDoc->m_pUI;
 
 	size = pDoc->getSize();
-
+	normalize = false;
 	glPointSize(1);
 
 	BrushMove(source, target);
@@ -41,20 +41,19 @@ void KernalBrush::BrushMove(const Point source, const Point target) {
 				|| temp_s.y > dlg->m_paintView->get_m_nDrawHeight()) {
 				continue;
 			} else {
-				mean_filter_applier(temp_s);
+				filter_applier(temp_s);
 				glVertex2d(target.x + i, target.y + j);
 			}
 		}
 	}
-
 	glEnd();
 }
 
-void KernalBrush::mean_filter_applier(const Point source) {
+void KernalBrush::filter_applier(const Point source) {
 	ImpressionistUI* dlg = GetDocument()->m_pUI;
-	int rgb[3] = {0};
-	for (int i = -(FILTER_SIZE - 1) / 2; i <= (FILTER_SIZE - 1) / 2; ++i) {
-		for (int j = -(FILTER_SIZE - 1) / 2; j <= (FILTER_SIZE - 1) / 2; ++j) {
+	double rgb[3] = {0};
+	for (int i = -(filter_size - 1) / 2; i <= (filter_size - 1) / 2; ++i) {
+		for (int j = -(filter_size - 1) / 2; j <= (filter_size - 1) / 2; ++j) {
 			Point temp_s = source;
 			if (i < 0 || i > dlg->m_paintView->get_m_nDrawWidth()) {
 				temp_s.x += -1 * i;
@@ -67,14 +66,17 @@ void KernalBrush::mean_filter_applier(const Point source) {
 				temp_s.y += j;
 			}
 			getColor(temp_s);
+			double filter_value = filter[(i + (filter_size - 1) / 2) + (j + (filter_size - 1) / 2) * filter_size];
+			if (normalize)
+				filter_value /= filter_sum;
 			for (int k = 0; k < 3; ++k) {
-				rgb[k] += temp_color[k];
+				rgb[k] += temp_color[k] * filter_value;
 			}
 		}
 	}
-	for (int k = 0; k < 3; ++k) {
-		rgb[k] /= FILTER_SIZE * FILTER_SIZE;
-	}
+	// for (int k = 0; k < 3; ++k) {
+	// 	rgb[k] /= filter_size * filter_size;
+	// }
 
 	GLubyte color[3] = {(GLubyte)rgb[0], (GLubyte)rgb[1], (GLubyte)rgb[2]};
 
@@ -90,15 +92,22 @@ void KernalBrush::setKernalFilter(std::string input) {
 	std::stringstream temp(input);
 	std::string buf;
 	filter.clear();
+	filter_sum = 0;
 	while (temp >> buf) {
-		filter.push_back(stoi(buf));
+		double temp = stod(buf);
+		filter.push_back(stod(buf));
+		filter_sum += temp;
 	}
-	// for (int i = 0; i < filter.size(); ++i) {
-	// 	std::cout << filter[i] << " ";
-	// }
+	filter_size = sqrt(filter.size());
+
+	for (int i = 0; i < filter.size(); ++i) {
+		std::cout << filter[i] << " ";
+	}
 }
 
 void KernalBrush::ClipBrushStroke(const Point source, const Point target) {}
+
+void KernalBrush::set_normalize(bool input) { normalize = input; }
 
 void KernalBrush::BrushEnd(const Point source, const Point target) {
 	// do nothing so far
