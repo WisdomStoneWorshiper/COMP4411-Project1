@@ -308,6 +308,25 @@ void ImpressionistUI::cb_auto_draw_button(Fl_Widget* o, void* v) {
 	pDoc->m_pUI->m_paintView->at_draw();
 	// pDoc->auto_draw();
 }
+#include "KernalBrush.h"
+
+#include <cstring>
+#include <iostream>
+void ImpressionistUI::cb_apply_filter_button(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+	reinterpret_cast<KernalBrush*>(ImpBrush::c_pBrushes[BRUSH_KERNAL])
+		->setKernalFilter((std::string)pDoc->m_pUI->m_KernalFilter->value());
+	// std::cout << (std::string)pDoc->m_pUI->m_KernalFilter->value();
+
+	// pDoc->auto_draw();
+}
+
+void ImpressionistUI::cb_normalize_button(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+	static bool n = false;
+	n = !n;
+	reinterpret_cast<KernalBrush*>(ImpBrush::c_pBrushes[BRUSH_KERNAL])->set_normalize(n);
+}
 
 void ImpressionistUI::cb_load_image_button(Fl_Widget* o, void* v) {
 	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
@@ -473,6 +492,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{"Scattered Lines", FL_ALT + 'm', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_SCATTERED_LINES},
 	{"Scattered Circles", FL_ALT + 'd', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_SCATTERED_CIRCLES},
 	{"Filter Points", FL_ALT + 'f', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_FILTER_POINTS},
+	{"Kernal", FL_ALT + 'f', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_KERNAL},
 	{0}};
 
 Fl_Menu_Item ImpressionistUI::strokeDirectionMenu[NUM_STROKE_TYPE + 1] = {
@@ -609,6 +629,12 @@ ImpressionistUI::ImpressionistUI() {
 	m_KernalFilter = new Fl_Input(90, 180, 150, 50, "&Kernel Filter");
 	m_KernalFilter->user_data((void*)(this));
 
+	m_ApplyFilterButton = new Fl_Button(300, 180, 70, 20, "&Apply");
+	m_ApplyFilterButton->user_data((void*)(this));
+	m_ApplyFilterButton->callback(cb_apply_filter_button);
+
+	m_Normalize = new Fl_Light_Button(300, 200, 90, 20, "&Normalize");
+	m_Normalize->user_data((void*)(this));
 
 	m_brushDialog->end();
 

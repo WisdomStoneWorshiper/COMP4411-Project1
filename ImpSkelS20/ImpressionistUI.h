@@ -55,6 +55,8 @@ public:
 	Fl_Button* m_loadImageButton;
 	Fl_Button* m_dissolveImageButton;
 
+	Fl_Button* m_ApplyFilterButton;
+	Fl_Light_Button* m_Normalize;
 	Fl_Input* m_KernalFilter;
 
 	// Member functions
@@ -123,6 +125,8 @@ private:
 	static void cb_auto_draw_button(Fl_Widget* o, void* v);
 	static void cb_load_image_button(Fl_Widget* o, void* v);
 	static void cb_dissolveImage(Fl_Widget* o, void* v);
+	static void cb_apply_filter_button(Fl_Widget* o, void* v);
+	static void cb_normalize_button(Fl_Widget* o, void* v);
 	static void cb_sizeSlides(Fl_Widget* o, void* v);
 	static void cb_LineWidthSlides(Fl_Widget* o, void* v);
 	static void cb_LineAngleSlides(Fl_Widget* o, void* v);

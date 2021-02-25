@@ -16,6 +16,7 @@
 #include "CircleBrush.h"
 #include "DirectionLine.h"
 #include "FilterBrush.h"
+#include "KernalBrush.h"
 #include "LineBrush.h"
 #include "PointBrush.h"
 #include "ScatteredCircleBrush.h"
@@ -61,6 +62,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_LINES] = new ScatteredLineBrush(this, "Scattered Lines");
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_CIRCLES] = new ScatteredCircleBrush(this, "Scattered Circles");
 	ImpBrush::c_pBrushes[BRUSH_FILTER_POINTS] = new FilterBrush(this, "Filter Points");
+	ImpBrush::c_pBrushes[BRUSH_KERNAL] = new KernalBrush(this, "Kernal");
 
 	// make one of the brushes current
 	m_pCurrentBrush = ImpBrush::c_pBrushes[0];

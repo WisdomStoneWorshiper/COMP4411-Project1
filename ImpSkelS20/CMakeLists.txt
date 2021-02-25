@@ -36,4 +36,5 @@ target_sources(proj1 PRIVATE
     ScatteredCircleBrush.cpp
     ScatteredLineBrush.cpp
     DirectionLine.cpp
-    FilterBrush.cpp)
+    FilterBrush.cpp
+    KernalBrush.cpp)
