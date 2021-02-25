@@ -22,6 +22,7 @@ public:
 
 	int loadImage(char* iname); // called by the UI to load image
 	int saveImage(char* iname); // called by the UI to save image
+	int loadDissolveImage(char* iname);
 
 	int clearCanvas();			 // called by the UI to clear the drawing canvas
 	void setBrushType(int type); // called by the UI to set the brushType
@@ -46,6 +47,8 @@ public:
 	unsigned char* m_ucBitmap;
 
 	unsigned char* m_ucPainting;
+
+	unsigned char* m_ucDissolve;
 
 	int m_pStroke;
 

@@ -36,6 +36,7 @@ public:
 	// for brush dialog
 	Fl_Window* m_brushDialog;
 	Fl_Window* m_colorDialog;
+	Fl_Window* m_dissolveDialog;
 	Fl_Choice* m_BrushTypeChoice;
 
 	Fl_Choice* m_StrokeDirectionChoice;
@@ -50,6 +51,7 @@ public:
 
 	Fl_Button* m_ClearCanvasButton;
 	Fl_Button* m_AutoDrawButton;
+	Fl_Button* m_loadImageButton;
 
 	Fl_Input* m_KernalFilter;
 
@@ -107,12 +109,14 @@ private:
 
 	static void cb_undo(Fl_Menu_* o, void* v);
 	static void cb_color(Fl_Menu_* o, void* v);
+	static void cb_dissolve(Fl_Menu_* o, void* v);
 
 	static void cb_exit(Fl_Menu_* o, void* v);
 	static void cb_about(Fl_Menu_* o, void* v);
 	static void cb_brushChoice(Fl_Widget* o, void* v);
 	static void cb_clear_canvas_button(Fl_Widget* o, void* v);
 	static void cb_auto_draw_button(Fl_Widget* o, void* v);
+	static void cb_load_image_button(Fl_Widget* o, void* v);
 	static void cb_sizeSlides(Fl_Widget* o, void* v);
 	static void cb_LineWidthSlides(Fl_Widget* o, void* v);
 	static void cb_LineAngleSlides(Fl_Widget* o, void* v);

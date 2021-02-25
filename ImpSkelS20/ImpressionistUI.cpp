@@ -227,6 +227,9 @@ void ImpressionistUI::cb_undo(Fl_Menu_* o, void* v) {
 // Color callback function
 void ImpressionistUI::cb_color(Fl_Menu_* o, void* v) { whoami(o)->m_colorDialog->show(); }
 
+// Dissolve callback function
+void ImpressionistUI::cb_dissolve(Fl_Menu_* o, void* v) { whoami(o)->m_dissolveDialog->show(); }
+
 //------------------------------------------------------------
 // Causes the Impressionist program to exit
 // Called by the UI when the quit menu item is chosen
@@ -295,6 +298,15 @@ void ImpressionistUI::cb_auto_draw_button(Fl_Widget* o, void* v) {
 
 	pDoc->m_pUI->m_paintView->at_draw();
 	// pDoc->auto_draw();
+}
+
+void ImpressionistUI::cb_load_image_button(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+
+	char* newfile = fl_file_chooser("Open File?", "*.bmp", pDoc->getImageName());
+	if (newfile != NULL) {
+		pDoc->loadDissolveImage(newfile);
+	}
 }
 
 //-----------------------------------------------------------
@@ -417,6 +429,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 	{"&Clear Canvas", FL_ALT + 'c', (Fl_Callback*)ImpressionistUI::cb_clear_canvas, 0, FL_MENU_DIVIDER},
 	{"&Swap Content", FL_ALT + 'w', (Fl_Callback*)ImpressionistUI::cb_swap_content},
 	{"&Colors", FL_ALT + 'y', (Fl_Callback*)ImpressionistUI::cb_color},
+	{"&Dissolve Image", FL_ALT + 'd', (Fl_Callback*)ImpressionistUI::cb_dissolve},
 
 	{"&Quit", FL_ALT + 'q', (Fl_Callback*)ImpressionistUI::cb_exit},
 	{0},
@@ -618,4 +631,10 @@ ImpressionistUI::ImpressionistUI() {
 
 
 	m_colorDialog->end();
+
+	m_dissolveDialog = new Fl_Window(375, 200, "Dissolve Dialog");
+
+	m_loadImageButton = new Fl_Button(240, 10, 150, 25, "&Load Image");
+	m_loadImageButton->user_data((void*)(this));
+	m_loadImageButton->callback(cb_load_image_button);
 }
