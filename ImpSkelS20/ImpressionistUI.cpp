@@ -213,6 +213,8 @@ void ImpressionistUI::cb_swap_content(Fl_Menu_* o, void* v) {
 	unsigned char* temp = pDoc->m_ucBitmap;
 	pDoc->m_ucBitmap = pDoc->m_ucPainting;
 	pDoc->m_ucPainting = temp;
+	pDoc->m_pUI->m_origView->refresh();
+	pDoc->m_pUI->m_paintView->refresh();
 }
 
 void ImpressionistUI::cb_undo(Fl_Menu_* o, void* v) {
