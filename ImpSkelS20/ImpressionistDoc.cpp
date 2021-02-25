@@ -23,6 +23,9 @@
 #include "ScatteredPointBrush.h"
 
 
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define max(a, b) (((a) > (b)) ? (a) : (b))
+
 #define DESTROY(p)         \
 	{                      \
 		if ((p) != NULL) { \
@@ -38,6 +41,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	m_nWidth = -1;
 	m_ucBitmap = NULL;
 	m_ucPainting = NULL;
+	m_ucDissolve = NULL;
 	undo_header = 0;
 	for (int i = 0; i < UNDO_LEVEL; ++i) {
 		m_last_ucPainting[i] = nullptr;
@@ -168,7 +172,8 @@ int ImpressionistDoc::loadDissolveImage(char* iname) {
 
 	// allocate space for draw view
 	m_ucPainting = new unsigned char[width * height * 3];
-	memcpy(m_ucPainting, m_ucBitmap, width * height * 3);
+	//memcpy(m_ucPainting, m_ucBitmap, width*height*3);
+	memset(m_ucPainting, 0, width * height * 3);
 	// for (int i = 0; i < UNDO_LEVEL; ++i) {
 	// 	m_last_ucPainting[i] = new unsigned char[width * height * 3];
 	// 	memset(m_last_ucPainting[i], 0, width * height * 3);
@@ -240,6 +245,15 @@ void ImpressionistDoc::undo() {
 		memcpy(m_ucPainting, m_last_ucPainting[undo_header], m_nPaintWidth * m_nPaintHeight * 3);
 		delete m_last_ucPainting[undo_header];
 		m_last_ucPainting[undo_header] = nullptr;
+	}
+	m_pUI->m_paintView->refresh();
+}
+
+void ImpressionistDoc::dissolveImage() {
+	if (!m_ucDissolve) return;
+	float alpha = m_pUI->getDissolveAlpha();
+	for (int i = 0; i < (m_nWidth*m_nHeight*3); i++) {
+		m_ucPainting[i] = static_cast<unsigned char>(max(min((m_ucBitmap[i]*alpha + m_ucDissolve[i]*(1-alpha)),255),0));
 	}
 	m_pUI->m_paintView->refresh();
 }

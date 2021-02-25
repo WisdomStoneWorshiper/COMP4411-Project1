@@ -309,6 +309,11 @@ void ImpressionistUI::cb_load_image_button(Fl_Widget* o, void* v) {
 	}
 }
 
+void ImpressionistUI::cb_dissolveImage(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+	pDoc->dissolveImage();
+}
+
 //-----------------------------------------------------------
 // Updates the brush size to use from the value of the size
 // slider
@@ -345,6 +350,10 @@ void ImpressionistUI::cb_GreenSlides(Fl_Widget* o, void* v) {
 
 void ImpressionistUI::cb_SpacingSlides(Fl_Widget* o, void* v) {
 	((ImpressionistUI*)(o->user_data()))->m_nAutoSpacing = float(((Fl_Slider*)o)->value());
+}
+
+void ImpressionistUI::cb_DissolveSlides(Fl_Widget* o, void* v) {
+	((ImpressionistUI*)(o->user_data()))->m_nDissolveAlpha = float(((Fl_Slider*)o)->value());
 }
 
 //---------------------------------- per instance functions --------------------------------------
@@ -412,6 +421,7 @@ float ImpressionistUI::getRedScale() { return m_nRedScale; }
 float ImpressionistUI::getBlueScale() { return m_nBlueScale; }
 float ImpressionistUI::getGreenScale() { return m_nGreenScale; }
 int ImpressionistUI::getAutoSpacing() { return m_nAutoSpacing; }
+float ImpressionistUI::getDissolveAlpha() { return m_nDissolveAlpha; }
 
 void ImpressionistUI::setAlpha(float alpha) {
 	m_nAlpha = alpha;
@@ -500,6 +510,7 @@ ImpressionistUI::ImpressionistUI() {
 	m_nBlueScale = 1.0;
 	m_nGreenScale = 1.0;
 	m_nAutoSpacing = 4;
+	m_nDissolveAlpha = 1.0;
 	// brush dialog definition
 	m_brushDialog = new Fl_Window(400, 325, "Brush Dialog");
 	// Add a brush type choice to the dialog
@@ -632,9 +643,27 @@ ImpressionistUI::ImpressionistUI() {
 
 	m_colorDialog->end();
 
-	m_dissolveDialog = new Fl_Window(375, 200, "Dissolve Dialog");
+	m_dissolveDialog = new Fl_Window(375, 150, "Dissolve Dialog");
 
-	m_loadImageButton = new Fl_Button(240, 10, 150, 25, "&Load Image");
+	m_loadImageButton = new Fl_Button(200, 10, 150, 25, "&Load Image");
 	m_loadImageButton->user_data((void*)(this));
 	m_loadImageButton->callback(cb_load_image_button);
+
+	m_dissolveImageButton = new Fl_Button(30, 10, 150, 25, "&Dissolve");
+	m_dissolveImageButton->user_data((void*)(this));
+	m_dissolveImageButton->callback(cb_dissolveImage);
+
+	m_dissolveSlider = new Fl_Value_Slider(30, 80, 300, 20, "Alpha");
+	m_dissolveSlider->user_data((void*)(this)); // record self to be used by static callback functions
+	m_dissolveSlider->type(FL_HOR_NICE_SLIDER);
+	m_dissolveSlider->labelfont(FL_COURIER);
+	m_dissolveSlider->labelsize(12);
+	m_dissolveSlider->minimum(0);
+	m_dissolveSlider->maximum(1);
+	m_dissolveSlider->step(0.01);
+	m_dissolveSlider->value(m_nDissolveAlpha);
+	m_dissolveSlider->align(FL_ALIGN_RIGHT);
+	m_dissolveSlider->callback(cb_DissolveSlides);
+
+	m_dissolveDialog->end();
 }

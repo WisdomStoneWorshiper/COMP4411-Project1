@@ -35,6 +35,7 @@ public:
 
 	void recordPainting();
 	void undo();
+	void dissolveImage();
 
 
 	// Attributes
