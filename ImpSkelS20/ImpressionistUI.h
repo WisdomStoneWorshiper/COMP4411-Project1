@@ -50,6 +50,7 @@ public:
 
 	Fl_Button* m_ClearCanvasButton;
 	Fl_Button* m_AutoDrawButton;
+	Fl_Button* m_ApplyFilterButton;
 
 	Fl_Input* m_KernalFilter;
 
@@ -113,6 +114,7 @@ private:
 	static void cb_brushChoice(Fl_Widget* o, void* v);
 	static void cb_clear_canvas_button(Fl_Widget* o, void* v);
 	static void cb_auto_draw_button(Fl_Widget* o, void* v);
+	static void cb_apply_filter_button(Fl_Widget* o, void* v);
 	static void cb_sizeSlides(Fl_Widget* o, void* v);
 	static void cb_LineWidthSlides(Fl_Widget* o, void* v);
 	static void cb_LineAngleSlides(Fl_Widget* o, void* v);
