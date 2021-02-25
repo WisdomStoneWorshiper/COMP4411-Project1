@@ -177,6 +177,15 @@ void ImpressionistUI::cb_load_image(Fl_Menu_* o, void* v) {
 	}
 }
 
+void ImpressionistUI::cb_mural_image(Fl_Menu_* o, void* v) {
+	ImpressionistDoc* pDoc = whoami(o)->getDocument();
+
+	char* newfile = fl_file_chooser("Open File?", "*.bmp", pDoc->getImageName());
+	if (newfile != NULL) {
+		pDoc->loadMuralImage(newfile);
+	}
+}
+
 //------------------------------------------------------------------
 // Brings up a file chooser and then saves the painted image
 // This is called by the UI when the save image menu item is chosen
@@ -440,6 +449,7 @@ Fl_Menu_Item ImpressionistUI::menuitems[] = {
 	{"&Swap Content", FL_ALT + 'w', (Fl_Callback*)ImpressionistUI::cb_swap_content},
 	{"&Colors", FL_ALT + 'y', (Fl_Callback*)ImpressionistUI::cb_color},
 	{"&Dissolve Image", FL_ALT + 'd', (Fl_Callback*)ImpressionistUI::cb_dissolve},
+	{"&New Mural Image", FL_ALT + 'm', (Fl_Callback*)ImpressionistUI::cb_mural_image},
 
 	{"&Quit", FL_ALT + 'q', (Fl_Callback*)ImpressionistUI::cb_exit},
 	{0},

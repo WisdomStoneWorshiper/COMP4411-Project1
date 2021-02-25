@@ -110,6 +110,7 @@ private:
 	static void cb_brushes(Fl_Menu_* o, void* v);
 	static void cb_clear_canvas(Fl_Menu_* o, void* v);
 	static void cb_swap_content(Fl_Menu_* o, void* v);
+	static void cb_mural_image(Fl_Menu_* o, void* v);
 
 	static void cb_undo(Fl_Menu_* o, void* v);
 	static void cb_color(Fl_Menu_* o, void* v);
