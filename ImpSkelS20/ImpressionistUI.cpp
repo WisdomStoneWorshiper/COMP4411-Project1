@@ -310,6 +310,15 @@ void ImpressionistUI::cb_clear_canvas_button(Fl_Widget* o, void* v) {
 	pDoc->clearCanvas();
 }
 
+void ImpressionistUI::cb_load_alphaMap_button(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+
+	char* newfile = fl_file_chooser("Open File?", "*.bmp", pDoc->getImageName());
+	if (newfile != NULL) {
+		pDoc->loadAlphaMapImage(newfile);
+	}
+}
+
 void ImpressionistUI::cb_auto_draw_button(Fl_Widget* o, void* v) {
 	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
 
@@ -561,6 +570,10 @@ ImpressionistUI::ImpressionistUI() {
 	m_ClearCanvasButton = new Fl_Button(240, 10, 150, 25, "&Clear Canvas");
 	m_ClearCanvasButton->user_data((void*)(this));
 	m_ClearCanvasButton->callback(cb_clear_canvas_button);
+
+	m_loadAlphaMapImage = new Fl_Button(10, 260, 180, 25, "&Load AlphaMap Image");
+	m_loadAlphaMapImage->user_data((void*)(this));
+	m_loadAlphaMapImage->callback(cb_load_alphaMap_button);
 
 	m_StrokeDirectionChoice = new Fl_Choice(113, 40, 150, 25, "&Stroke Direction");
 	m_StrokeDirectionChoice->user_data((void*)(this)); // record self to be used by static callback functions

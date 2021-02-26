@@ -98,6 +98,8 @@ int ImpressionistDoc::getSize() { return m_pUI->getSize(); }
 
 float ImpressionistDoc::getAlpha() { return m_pUI->getAlpha(); }
 
+void ImpressionistDoc::setAlpha(float alpha) { m_pUI->setAlpha(alpha); }
+
 //---------------------------------------------------------
 // Load the specified image
 // This is called by the UI when the load image button is
@@ -235,6 +237,32 @@ int ImpressionistDoc::loadMuralImage(char* iname) {
 	// refresh paint view as well
 	m_pUI->m_paintView->resizeWindow(width, height);
 	m_pUI->m_paintView->refresh();
+
+	return 1;
+}
+
+int ImpressionistDoc::loadAlphaMapImage(char* iname) {
+	// try to open the image to read
+	unsigned char* data;
+	int width, height;
+
+	if ((data = readBMP(iname, width, height)) == NULL) {
+		fl_alert("Can't load bitmap file");
+		return 0;
+	}
+
+	if (width > m_nWidth || height > m_nHeight) {
+		fl_alert("Alpha image has to be smaller than original image");
+		return 0;
+	}
+
+	m_nAlphaWidth = width;
+	m_nAlphaHeight = height;
+	// release old storage
+	if (m_ucAlphaMap)
+		delete[] m_ucAlphaMap;
+
+	m_ucAlphaMap = data;
 
 	return 1;
 }

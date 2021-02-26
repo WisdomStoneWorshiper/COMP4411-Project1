@@ -54,6 +54,7 @@ public:
 	Fl_Button* m_AutoDrawButton;
 	Fl_Button* m_loadImageButton;
 	Fl_Button* m_dissolveImageButton;
+	Fl_Button* m_loadAlphaMapImage;
 
 	Fl_Button* m_ApplyFilterButton;
 	Fl_Light_Button* m_Normalize;
@@ -124,6 +125,7 @@ private:
 	static void cb_clear_canvas_button(Fl_Widget* o, void* v);
 	static void cb_auto_draw_button(Fl_Widget* o, void* v);
 	static void cb_load_image_button(Fl_Widget* o, void* v);
+	static void cb_load_alphaMap_button(Fl_Widget* o, void* v);
 	static void cb_dissolveImage(Fl_Widget* o, void* v);
 	static void cb_apply_filter_button(Fl_Widget* o, void* v);
 	static void cb_normalize_button(Fl_Widget* o, void* v);
