@@ -98,7 +98,8 @@ void PaintView::draw() {
 	if (m_pDoc->m_ucPainting && !isAnEvent) {
 		RestoreContent();
 	}
-
+	bool need_undo = false;
+	Point start_pt;
 	// std::cout << "e:" << isAnEvent;
 	if (m_pDoc->m_ucPainting && isAnEvent) {
 		// Clear it after processing.
@@ -129,21 +130,22 @@ void PaintView::draw() {
 				SaveCurrentContent();
 				RestoreContent();
 				break;
-			case RIGHT_MOUSE_DOWN:
-				// SaveCurrentContent();
-				m_pDoc->m_pDirectionLine->BrushBegin(source, target);
-				break;
+			case RIGHT_MOUSE_DOWN: m_pDoc->m_pDirectionLine->BrushBegin(source, target); break;
 
 			case RIGHT_MOUSE_DRAG:
 				RestoreContent();
+				// glFlush();
 				m_pDoc->m_pDirectionLine->BrushMove(source, target);
-
+				// glFlush();
+				// RestoreContent();
 				break;
 
 			case RIGHT_MOUSE_UP:
-				// RestoreContent();
+				// std::cout << "fk";
+				RestoreContent();
+				// glFlush();
 				m_pDoc->m_pDirectionLine->BrushEnd(source, target);
-				// RestoreContent();
+				RestoreContent();
 				break;
 
 			case AT_DRAW:
@@ -268,13 +270,11 @@ void PaintView::SaveCurrentContent() {
 
 void PaintView::RestoreContent() {
 	glDrawBuffer(GL_BACK);
+
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glRasterPos2i(0, m_nWindowHeight - m_nDrawHeight);
-
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
 	glPixelStorei(GL_UNPACK_ROW_LENGTH, m_pDoc->m_nPaintWidth);
-
 	glDrawPixels(m_nDrawWidth, m_nDrawHeight, GL_RGB, GL_UNSIGNED_BYTE, m_pPaintBitstart);
 }
