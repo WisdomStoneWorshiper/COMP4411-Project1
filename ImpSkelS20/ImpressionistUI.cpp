@@ -275,10 +275,18 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v) {
 			pUI->m_LineWidthSlider->activate();
 			pUI->m_LineAngleSlider->activate();
 
+		} else if (type == BRUSH_ALPHA_MAPPING) {
+			pUI->m_StrokeDirectionChoice->deactivate();
+			pUI->m_LineWidthSlider->deactivate();
+			pUI->m_LineAngleSlider->deactivate();
+			pUI->m_BrushSizeSlider->deactivate();
+			pUI->m_AlphaSlider->deactivate();
 		} else {
 			pUI->m_StrokeDirectionChoice->deactivate();
 			pUI->m_LineWidthSlider->deactivate();
 			pUI->m_LineAngleSlider->deactivate();
+			pUI->m_BrushSizeSlider->activate();
+			pUI->m_AlphaSlider->activate();
 		}
 	}
 }
@@ -300,6 +308,15 @@ void ImpressionistUI::cb_clear_canvas_button(Fl_Widget* o, void* v) {
 	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
 
 	pDoc->clearCanvas();
+}
+
+void ImpressionistUI::cb_load_alphaMap_button(Fl_Widget* o, void* v) {
+	ImpressionistDoc* pDoc = ((ImpressionistUI*)(o->user_data()))->getDocument();
+
+	char* newfile = fl_file_chooser("Open File?", "*.bmp", pDoc->getImageName());
+	if (newfile != NULL) {
+		pDoc->loadAlphaMapImage(newfile);
+	}
 }
 
 void ImpressionistUI::cb_auto_draw_button(Fl_Widget* o, void* v) {
@@ -493,6 +510,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{"Scattered Circles", FL_ALT + 'd', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_SCATTERED_CIRCLES},
 	{"Filter Points", FL_ALT + 'f', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_FILTER_POINTS},
 	{"Kernal", FL_ALT + 'f', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_KERNAL},
+	{"Alpha Mapped", FL_ALT + 'x', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_ALPHA_MAPPING},
 	{0}};
 
 Fl_Menu_Item ImpressionistUI::strokeDirectionMenu[NUM_STROKE_TYPE + 1] = {
@@ -552,6 +570,10 @@ ImpressionistUI::ImpressionistUI() {
 	m_ClearCanvasButton = new Fl_Button(240, 10, 150, 25, "&Clear Canvas");
 	m_ClearCanvasButton->user_data((void*)(this));
 	m_ClearCanvasButton->callback(cb_clear_canvas_button);
+
+	m_loadAlphaMapImage = new Fl_Button(10, 260, 180, 25, "&Load AlphaMap Image");
+	m_loadAlphaMapImage->user_data((void*)(this));
+	m_loadAlphaMapImage->callback(cb_load_alphaMap_button);
 
 	m_StrokeDirectionChoice = new Fl_Choice(113, 40, 150, 25, "&Stroke Direction");
 	m_StrokeDirectionChoice->user_data((void*)(this)); // record self to be used by static callback functions

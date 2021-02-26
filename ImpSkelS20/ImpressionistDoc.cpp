@@ -13,6 +13,7 @@
 #include <FL/fl_ask.H>
 
 // Include individual brush headers here.
+#include "AlphaMappingBrush.h"
 #include "CircleBrush.h"
 #include "DirectionLine.h"
 #include "FilterBrush.h"
@@ -43,6 +44,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	m_ucBitmap = NULL;
 	m_ucPainting = NULL;
 	m_ucDissolve = NULL;
+	m_ucAlphaMap = NULL;
 	undo_header = 0;
 	for (int i = 0; i < UNDO_LEVEL; ++i) {
 		m_last_ucPainting[i] = nullptr;
@@ -63,6 +65,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_CIRCLES] = new ScatteredCircleBrush(this, "Scattered Circles");
 	ImpBrush::c_pBrushes[BRUSH_FILTER_POINTS] = new FilterBrush(this, "Filter Points");
 	ImpBrush::c_pBrushes[BRUSH_KERNAL] = new KernalBrush(this, "Kernal");
+	ImpBrush::c_pBrushes[BRUSH_ALPHA_MAPPING] = new AlphaMappingBrush(this, "Alpha Mapping");
 
 	// make one of the brushes current
 	m_pCurrentBrush = ImpBrush::c_pBrushes[0];
@@ -94,6 +97,8 @@ int ImpressionistDoc::getStrokeType() { return m_pStroke; }
 int ImpressionistDoc::getSize() { return m_pUI->getSize(); }
 
 float ImpressionistDoc::getAlpha() { return m_pUI->getAlpha(); }
+
+void ImpressionistDoc::setAlpha(float alpha) { m_pUI->setAlpha(alpha); }
 
 //---------------------------------------------------------
 // Load the specified image
@@ -232,6 +237,32 @@ int ImpressionistDoc::loadMuralImage(char* iname) {
 	// refresh paint view as well
 	m_pUI->m_paintView->resizeWindow(width, height);
 	m_pUI->m_paintView->refresh();
+
+	return 1;
+}
+
+int ImpressionistDoc::loadAlphaMapImage(char* iname) {
+	// try to open the image to read
+	unsigned char* data;
+	int width, height;
+
+	if ((data = readBMP(iname, width, height)) == NULL) {
+		fl_alert("Can't load bitmap file");
+		return 0;
+	}
+
+	if (width > m_nWidth || height > m_nHeight) {
+		fl_alert("Alpha image has to be smaller than original image");
+		return 0;
+	}
+
+	m_nAlphaWidth = width;
+	m_nAlphaHeight = height;
+	// release old storage
+	if (m_ucAlphaMap)
+		delete[] m_ucAlphaMap;
+
+	m_ucAlphaMap = data;
 
 	return 1;
 }

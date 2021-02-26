@@ -24,6 +24,7 @@ public:
 	int saveImage(char* iname); // called by the UI to save image
 	int loadDissolveImage(char* iname);
 	int loadMuralImage(char* iname);
+	int loadAlphaMapImage(char* iname);
 
 	int clearCanvas();			 // called by the UI to clear the drawing canvas
 	void setBrushType(int type); // called by the UI to set the brushType
@@ -31,6 +32,7 @@ public:
 	void setSize(int size);		 // set the UI size
 	char* getImageName();		 // get the current image name
 	float getAlpha();
+	void setAlpha(float alpha);
 	void setStrokeType(int type); // called by the UI to set the StrokeType
 	int getStrokeType();
 
@@ -45,12 +47,16 @@ public:
 	int m_nWidth, m_nHeight;
 	// Dimensions of the paint window.
 	int m_nPaintWidth, m_nPaintHeight;
+
+	int m_nAlphaWidth, m_nAlphaHeight;
 	// Bitmaps for original image and painting.
 	unsigned char* m_ucBitmap;
 
 	unsigned char* m_ucPainting;
 
 	unsigned char* m_ucDissolve;
+
+	unsigned char* m_ucAlphaMap;
 
 	int m_pStroke;
 
