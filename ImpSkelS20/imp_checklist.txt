@@ -1,7 +1,7 @@
 Impressionist Bells and Whistles checklist for grading
 (submit with your project ONLY if you have implemented any of the following B&Ws)
 
-HKUST login(s): klloaj
+HKUST login(s): klloaj, kkotecha
 
 Delete yes/no when appropriate
 
