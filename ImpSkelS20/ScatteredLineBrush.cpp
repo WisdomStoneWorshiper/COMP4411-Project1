@@ -111,12 +111,11 @@ void ScatteredLineBrush::ClipBrushStroke(const Point target, const Point offset)
 	double c = a * (p1.x) + b * (p1.y);
 	Point* curr_point = &p1;
 	for (int i = 0; i < 2; ++i) {
-		if (curr_point->x
-			< pDoc->m_pUI->m_paintView->get_m_nWindowWidth() - pDoc->m_pUI->m_paintView->get_m_nDrawWidth()) {
+		if (curr_point->x < 0) {
 			curr_point->x = 0;
 			curr_point->y = c / b;
-		} else if (curr_point->x > pDoc->m_pUI->m_paintView->get_m_nWindowWidth()) {
-			curr_point->x = pDoc->m_pUI->m_paintView->get_m_nWindowWidth();
+		} else if (curr_point->x > pDoc->m_pUI->m_paintView->get_m_nDrawWidth()) {
+			curr_point->x = pDoc->m_pUI->m_paintView->get_m_nDrawWidth();
 			curr_point->y = (c - a * curr_point->x) / b;
 		}
 		if (curr_point->y
