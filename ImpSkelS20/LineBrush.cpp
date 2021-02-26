@@ -88,7 +88,7 @@ void LineBrush::BrushMove(const Point source, const Point target) {
 
 	glEnd();
 }
-
+#include <iostream>
 void LineBrush::ClipBrushStroke(const Point target, const Point offset) {
 	ImpressionistDoc* pDoc = GetDocument();
 	Point p1 = target, p2 = target;
@@ -100,19 +100,30 @@ void LineBrush::ClipBrushStroke(const Point target, const Point offset) {
 	double b = p1.x - p2.x;
 	double c = a * (p1.x) + b * (p1.y);
 	Point* curr_point = &p1;
+	// std::cout << "sx:" << pDoc->m_pUI->m_paintView->get_m_nStartCol()
+	// 		  << "sy:" << pDoc->m_pUI->m_paintView->get_m_nStartRow() << ";";
+	// std::cout << "dx:" << pDoc->m_pUI->m_paintView->get_m_nDrawWidth()
+	// 		  << "dy:" << pDoc->m_pUI->m_paintView->get_m_nDrawHeight() << ";";
+	// std::cout << "px:" << pDoc->m_nPaintWidth << "py:" << pDoc->m_nPaintHeight << ";";
+	// std::cout << "px:" << pDoc->m_nPaintWidth << "py:" << pDoc->m_nPaintHeight << ";";
+	// std::cout << "wy:" << pDoc->m_pUI->m_paintView->get_m_nWindowHeight() << ";";
+
 	for (int i = 0; i < 2; ++i) {
-		if (curr_point->x < 0) {
+		if (curr_point->x
+			< pDoc->m_pUI->m_paintView->get_m_nWindowWidth() - pDoc->m_pUI->m_paintView->get_m_nDrawWidth()) {
 			curr_point->x = 0;
 			curr_point->y = c / b;
-		} else if (curr_point->x > pDoc->m_pUI->m_paintView->get_m_nDrawWidth()) {
-			curr_point->x = pDoc->m_pUI->m_paintView->get_m_nDrawWidth();
+		} else if (curr_point->x > pDoc->m_pUI->m_paintView->get_m_nWindowWidth()) {
+			curr_point->x = pDoc->m_pUI->m_paintView->get_m_nWindowWidth();
 			curr_point->y = (c - a * curr_point->x) / b;
 		}
-		if (curr_point->y < 0) {
-			curr_point->y = 0;
+		if (curr_point->y
+			< pDoc->m_pUI->m_paintView->get_m_nWindowHeight() - pDoc->m_pUI->m_paintView->get_m_nDrawHeight()) {
+			curr_point->y =
+				pDoc->m_pUI->m_paintView->get_m_nWindowHeight() - pDoc->m_pUI->m_paintView->get_m_nDrawHeight();
 			curr_point->x = c / a;
-		} else if (curr_point->y > pDoc->m_pUI->m_paintView->get_m_nDrawHeight()) {
-			curr_point->y = pDoc->m_pUI->m_paintView->get_m_nDrawHeight();
+		} else if (curr_point->y > pDoc->m_pUI->m_paintView->get_m_nWindowHeight()) {
+			curr_point->y = pDoc->m_pUI->m_paintView->get_m_nWindowHeight();
 			curr_point->x = (c - b * curr_point->y) / a;
 		}
 		curr_point = &p2;

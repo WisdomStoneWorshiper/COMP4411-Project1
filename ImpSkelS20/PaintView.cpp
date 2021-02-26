@@ -43,12 +43,16 @@ PaintView::PaintView(int x, int y, int w, int h, const char* l) : Fl_Gl_Window(x
 int PaintView::get_m_nDrawWidth() { return m_nDrawWidth; }
 
 int PaintView::get_m_nDrawHeight() { return m_nDrawHeight; }
+int PaintView::get_m_nStartCol() { return m_nStartCol; }
+
+int PaintView::get_m_nStartRow() { return m_nStartRow; }
 
 int PaintView::get_m_nEndCol() { return m_nEndCol; }
 
 int PaintView::get_m_nEndRow() { return m_nEndRow; }
 
 int PaintView::get_m_nWindowHeight() { return m_nWindowHeight; }
+int PaintView::get_m_nWindowWidth() { return m_nWindowWidth; }
 
 extern float frand();
 

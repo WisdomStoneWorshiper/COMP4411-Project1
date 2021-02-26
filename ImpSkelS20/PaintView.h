@@ -38,11 +38,17 @@ public:
 
 	int get_m_nDrawHeight();
 
+	int get_m_nStartCol();
+
+	int get_m_nStartRow();
+
 	int get_m_nEndCol();
 
 	int get_m_nEndRow();
 
 	int get_m_nWindowHeight();
+
+	int get_m_nWindowWidth();
 
 	void at_draw();
 
