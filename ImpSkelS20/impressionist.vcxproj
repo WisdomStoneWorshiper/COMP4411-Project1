@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlphaMappingBrush.cpp" />
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="CircleBrush.cpp" />
     <ClCompile Include="DirectionLine.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="ScatteredPointBrush.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AlphaMappingBrush.h" />
     <ClInclude Include="bitmap.h" />
     <ClInclude Include="CircleBrush.h" />
     <ClInclude Include="DirectionLine.h" />

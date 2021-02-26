@@ -13,7 +13,7 @@ B RGB scale						yes
 B blur/sharp brush					yes
 B 1 level undo						yes
 B dissolve						yes
-BW fade in/out input on output canvas			yes/no
+BW fade in/out input on output canvas			no
 BW mural (blending)					yes
 BW alpha brush						yes
 BW automatic paint whole image				yes
