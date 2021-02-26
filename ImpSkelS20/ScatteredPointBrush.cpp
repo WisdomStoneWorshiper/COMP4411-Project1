@@ -55,8 +55,10 @@ void ScatteredPointBrush::BrushMove(const Point source, const Point target) {
 
 void ScatteredPointBrush::ClipBrushStroke(const Point source, const Point target) {
 	ImpressionistDoc* pDoc = GetDocument();
-	if (target.x >= 0 && target.y >= 0 && pDoc->m_pUI->m_paintView->get_m_nDrawWidth() >= target.x
-		&& pDoc->m_pUI->m_paintView->get_m_nDrawHeight() >= target.y) {
+	if (target.x >= pDoc->m_pUI->m_paintView->get_m_nWindowWidth() - pDoc->m_pUI->m_paintView->get_m_nDrawWidth()
+		&& target.y >= pDoc->m_pUI->m_paintView->get_m_nWindowHeight() - pDoc->m_pUI->m_paintView->get_m_nDrawHeight()
+		&& pDoc->m_pUI->m_paintView->get_m_nWindowWidth() >= target.x
+		&& pDoc->m_pUI->m_paintView->get_m_nWindowHeight() >= target.y) {
 		SetColor(source);
 		glVertex2d(target.x, target.y);
 	}

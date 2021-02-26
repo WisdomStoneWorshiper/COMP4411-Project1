@@ -35,14 +35,21 @@ void PointBrush::BrushMove(const Point source, const Point target) {
 	}
 
 	glBegin(GL_POINTS);
-	SetColor(source);
-
-	glVertex2d(target.x, target.y);
+	ClipBrushStroke(source, target);
 
 	glEnd();
 }
 
-void PointBrush::ClipBrushStroke(const Point source, const Point target) {}
+void PointBrush::ClipBrushStroke(const Point source, const Point target) {
+	ImpressionistDoc* pDoc = GetDocument();
+	if (target.x >= pDoc->m_pUI->m_paintView->get_m_nWindowWidth() - pDoc->m_pUI->m_paintView->get_m_nDrawWidth()
+		&& target.y >= pDoc->m_pUI->m_paintView->get_m_nWindowHeight() - pDoc->m_pUI->m_paintView->get_m_nDrawHeight()
+		&& pDoc->m_pUI->m_paintView->get_m_nWindowWidth() >= target.x
+		&& pDoc->m_pUI->m_paintView->get_m_nWindowHeight() >= target.y) {
+		SetColor(source);
+		glVertex2d(target.x, target.y);
+	}
+}
 
 void PointBrush::BrushEnd(const Point source, const Point target) {
 	// do nothing so far

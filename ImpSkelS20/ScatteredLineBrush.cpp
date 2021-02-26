@@ -111,18 +111,21 @@ void ScatteredLineBrush::ClipBrushStroke(const Point target, const Point offset)
 	double c = a * (p1.x) + b * (p1.y);
 	Point* curr_point = &p1;
 	for (int i = 0; i < 2; ++i) {
-		if (curr_point->x < 0) {
+		if (curr_point->x
+			< pDoc->m_pUI->m_paintView->get_m_nWindowWidth() - pDoc->m_pUI->m_paintView->get_m_nDrawWidth()) {
 			curr_point->x = 0;
 			curr_point->y = c / b;
-		} else if (curr_point->x > pDoc->m_pUI->m_paintView->get_m_nDrawWidth()) {
-			curr_point->x = pDoc->m_pUI->m_paintView->get_m_nDrawWidth();
+		} else if (curr_point->x > pDoc->m_pUI->m_paintView->get_m_nWindowWidth()) {
+			curr_point->x = pDoc->m_pUI->m_paintView->get_m_nWindowWidth();
 			curr_point->y = (c - a * curr_point->x) / b;
 		}
-		if (curr_point->y < 0) {
-			curr_point->y = 0;
+		if (curr_point->y
+			< pDoc->m_pUI->m_paintView->get_m_nWindowHeight() - pDoc->m_pUI->m_paintView->get_m_nDrawHeight()) {
+			curr_point->y =
+				pDoc->m_pUI->m_paintView->get_m_nWindowHeight() - pDoc->m_pUI->m_paintView->get_m_nDrawHeight();
 			curr_point->x = c / a;
-		} else if (curr_point->y > pDoc->m_pUI->m_paintView->get_m_nDrawHeight()) {
-			curr_point->y = pDoc->m_pUI->m_paintView->get_m_nDrawHeight();
+		} else if (curr_point->y > pDoc->m_pUI->m_paintView->get_m_nWindowHeight()) {
+			curr_point->y = pDoc->m_pUI->m_paintView->get_m_nWindowHeight();
 			curr_point->x = (c - b * curr_point->y) / a;
 		}
 		curr_point = &p2;
