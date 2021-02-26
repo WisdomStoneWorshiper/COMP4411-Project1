@@ -275,10 +275,18 @@ void ImpressionistUI::cb_brushChoice(Fl_Widget* o, void* v) {
 			pUI->m_LineWidthSlider->activate();
 			pUI->m_LineAngleSlider->activate();
 
+		} else if (type == BRUSH_ALPHA_MAPPING) {
+			pUI->m_StrokeDirectionChoice->deactivate();
+			pUI->m_LineWidthSlider->deactivate();
+			pUI->m_LineAngleSlider->deactivate();
+			pUI->m_BrushSizeSlider->deactivate();
+			pUI->m_AlphaSlider->deactivate();
 		} else {
 			pUI->m_StrokeDirectionChoice->deactivate();
 			pUI->m_LineWidthSlider->deactivate();
 			pUI->m_LineAngleSlider->deactivate();
+			pUI->m_BrushSizeSlider->activate();
+			pUI->m_AlphaSlider->activate();
 		}
 	}
 }
@@ -493,6 +501,7 @@ Fl_Menu_Item ImpressionistUI::brushTypeMenu[NUM_BRUSH_TYPE + 1] = {
 	{"Scattered Circles", FL_ALT + 'd', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_SCATTERED_CIRCLES},
 	{"Filter Points", FL_ALT + 'f', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_FILTER_POINTS},
 	{"Kernal", FL_ALT + 'f', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_KERNAL},
+	{"Alpha Mapped", FL_ALT + 'x', (Fl_Callback*)ImpressionistUI::cb_brushChoice, (void*)BRUSH_ALPHA_MAPPING},
 	{0}};
 
 Fl_Menu_Item ImpressionistUI::strokeDirectionMenu[NUM_STROKE_TYPE + 1] = {

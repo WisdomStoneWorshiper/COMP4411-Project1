@@ -37,4 +37,5 @@ target_sources(proj1 PRIVATE
     ScatteredLineBrush.cpp
     DirectionLine.cpp
     FilterBrush.cpp
-    KernalBrush.cpp)
+    KernalBrush.cpp
+    AlphaMappingBrush.cpp)

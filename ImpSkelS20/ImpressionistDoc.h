@@ -52,6 +52,8 @@ public:
 
 	unsigned char* m_ucDissolve;
 
+	unsigned char* m_ucAlphaMap;
+
 	int m_pStroke;
 
 	// The current active brush.

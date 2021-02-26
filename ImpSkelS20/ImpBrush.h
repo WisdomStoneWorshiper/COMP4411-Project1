@@ -20,6 +20,7 @@ enum {
 	BRUSH_SCATTERED_CIRCLES,
 	BRUSH_FILTER_POINTS,
 	BRUSH_KERNAL,
+	BRUSH_ALPHA_MAPPING,
 	NUM_BRUSH_TYPE // Make sure this stays at the end!
 };
 

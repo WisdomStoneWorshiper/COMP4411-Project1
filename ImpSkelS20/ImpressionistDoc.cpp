@@ -13,6 +13,7 @@
 #include <FL/fl_ask.H>
 
 // Include individual brush headers here.
+#include "AlphaMappingBrush.h"
 #include "CircleBrush.h"
 #include "DirectionLine.h"
 #include "FilterBrush.h"
@@ -43,6 +44,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	m_ucBitmap = NULL;
 	m_ucPainting = NULL;
 	m_ucDissolve = NULL;
+	m_ucAlphaMap = NULL;
 	undo_header = 0;
 	for (int i = 0; i < UNDO_LEVEL; ++i) {
 		m_last_ucPainting[i] = nullptr;
@@ -63,6 +65,7 @@ ImpressionistDoc::ImpressionistDoc() {
 	ImpBrush::c_pBrushes[BRUSH_SCATTERED_CIRCLES] = new ScatteredCircleBrush(this, "Scattered Circles");
 	ImpBrush::c_pBrushes[BRUSH_FILTER_POINTS] = new FilterBrush(this, "Filter Points");
 	ImpBrush::c_pBrushes[BRUSH_KERNAL] = new KernalBrush(this, "Kernal");
+	ImpBrush::c_pBrushes[BRUSH_ALPHA_MAPPING] = new AlphaMappingBrush(this, "Alpha Mapping");
 
 	// make one of the brushes current
 	m_pCurrentBrush = ImpBrush::c_pBrushes[0];
