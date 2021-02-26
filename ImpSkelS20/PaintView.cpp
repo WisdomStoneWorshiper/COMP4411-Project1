@@ -143,9 +143,10 @@ void PaintView::draw() {
 			case RIGHT_MOUSE_UP:
 				// std::cout << "fk";
 				RestoreContent();
-				// glFlush();
+				glFinish();
+				glFlush;
 				m_pDoc->m_pDirectionLine->BrushEnd(source, target);
-				RestoreContent();
+				// RestoreContent();
 				break;
 
 			case AT_DRAW:
